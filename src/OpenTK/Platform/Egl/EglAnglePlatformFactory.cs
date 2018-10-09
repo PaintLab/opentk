@@ -32,16 +32,16 @@ namespace OpenTK.Platform.Egl
 {
     internal class EglAnglePlatformFactory : PlatformFactoryBase
     {
-        private readonly IPlatformFactory _platform_factory;
-        public EglAnglePlatformFactory(IPlatformFactory platform_factory)
+        private readonly IPlatformFactory2 _platform_factory;
+        public EglAnglePlatformFactory(IPlatformFactory2 platform_factory)
         {
             _platform_factory = platform_factory;
         }
 
-        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode,
+        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode,
             GameWindowFlags options, DisplayDevice device)
         {
-            return _platform_factory.CreateNativeWindow(x, y, width, height, title,
+            return (INativeWindow2)_platform_factory.CreateNativeWindow(x, y, width, height, title,
                 mode, options, device);
         }
 

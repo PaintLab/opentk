@@ -32,4 +32,5 @@ namespace OpenTK.Platform
     public interface INativeWindow : IDisposable
     {
     }
+   
 }

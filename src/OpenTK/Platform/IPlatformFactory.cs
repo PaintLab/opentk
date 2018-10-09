@@ -40,13 +40,13 @@ namespace OpenTK.Platform
 
         GraphicsContext.GetCurrentContextDelegate CreateGetCurrentGraphicsContext();
 
-        OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
+        //OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
 
-        OpenTK.Input.IMouseDriver2 CreateMouseDriver();
+        //OpenTK.Input.IMouseDriver2 CreateMouseDriver();
 
-        OpenTK.Input.IGamePadDriver CreateGamePadDriver();
+        //OpenTK.Input.IGamePadDriver CreateGamePadDriver();
 
-        Input.IJoystickDriver2 CreateJoystickDriver();
+        //Input.IJoystickDriver2 CreateJoystickDriver();
 
         void RegisterResource(IDisposable resource);
     }

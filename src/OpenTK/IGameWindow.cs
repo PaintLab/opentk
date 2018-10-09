@@ -30,7 +30,7 @@ namespace OpenTK.Platform
     /// <summary>
     /// Defines the interface for a GameWindow.
     /// </summary>
-    public interface IGameWindow : INativeWindow
+    public interface IGameWindow : INativeWindow2
     {
         /// <summary>
         /// Enters the game loop of the GameWindow using the maximum update rate.

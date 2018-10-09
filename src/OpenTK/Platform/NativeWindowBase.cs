@@ -36,7 +36,7 @@ using OpenTK.Input;
 namespace OpenTK.Platform
 {
     // Common base class for all INativeWindow implementations
-    internal abstract class NativeWindowBase : INativeWindow
+    internal abstract class NativeWindowBase : INativeWindow, INativeWindow2
     {
         private readonly MouseButtonEventArgs MouseDownArgs = new MouseButtonEventArgs();
         private readonly MouseButtonEventArgs MouseUpArgs = new MouseButtonEventArgs();

@@ -45,7 +45,7 @@ namespace OpenTK.Platform.MacOS
             InputDriver = new HIDInput();
         }
 
-        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
         {
             return new CocoaNativeWindow(x, y, width, height, title, mode, options, device);
         }
@@ -75,7 +75,7 @@ namespace OpenTK.Platform.MacOS
 
         public override IKeyboardDriver2 CreateKeyboardDriver()
         {
-           return InputDriver.KeyboardDriver;
+            return InputDriver.KeyboardDriver;
         }
 
         public override IMouseDriver2 CreateMouseDriver()

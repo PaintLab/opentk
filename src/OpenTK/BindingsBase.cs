@@ -205,6 +205,6 @@ namespace OpenTK
             Marshal.FreeHGlobal(ptr);
         }
 
-        internal abstract void LoadEntryPoints();
+        public abstract void LoadEntryPoints();
     }
 }

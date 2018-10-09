@@ -276,7 +276,7 @@ namespace OpenTK.Graphics
         /// <param name="minor">This parameter is reserved.</param>
         /// <param name="flags">This parameter is reserved..</param>
         public GraphicsContext(ContextHandle handle, IWindowInfo window, IGraphicsContext shareContext, int major, int minor, GraphicsContextFlags flags)
-            : this(handle, PlatformAddressPortal.GetAddressDelegate, Factory.Default.CreateGetCurrentGraphicsContext())
+            : this(handle, PlatformAddressPortal.GetAddressDelegate, OpenTK.Platform.Factory.Default.CreateGetCurrentGraphicsContext())
         { }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace OpenTK.Graphics
             }
         }
 
-        internal static GetCurrentContextDelegate GetCurrentContext;
+        public static GetCurrentContextDelegate GetCurrentContext;
 
         /// <summary>
         /// Gets the handle of the current GraphicsContext in the calling thread.

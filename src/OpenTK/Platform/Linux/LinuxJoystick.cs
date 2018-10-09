@@ -60,7 +60,7 @@ namespace OpenTK.Platform.Linux
         };
     }
 
-    internal sealed class LinuxJoystick : IJoystickDriver2
+    public sealed class LinuxJoystick : IJoystickDriver2
     {
         private static readonly HatPosition[,] HatPositions = new HatPosition[,]
         {
@@ -377,7 +377,7 @@ namespace OpenTK.Platform.Linux
                     length /= sizeof(InputEvent);
                     for (int i = 0; i < length; i++)
                     {
-                        InputEvent *e = events + i;
+                        InputEvent* e = events + i;
                         switch (e->Type)
                         {
                             case EvdevType.ABS:

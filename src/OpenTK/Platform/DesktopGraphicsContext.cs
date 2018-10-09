@@ -29,7 +29,7 @@ using OpenTK.Graphics;
 namespace OpenTK.Platform
 {
     // Provides the foundation for all desktop IGraphicsContext implementations.
-    internal abstract class DesktopGraphicsContext : GraphicsContextBase
+    public abstract class DesktopGraphicsContext : GraphicsContextBase
     {
         public override void LoadAll()
         {

@@ -46,7 +46,7 @@ namespace OpenTK.Platform.Windows
                 // Create temporary context and load WGL entry points
                 // First, set a compatible pixel format to the device context
                 // of the temp window
-                WinWindowInfo window = native.WindowInfo as WinWindowInfo;
+                WinWindowInfo window = ((INativeWindow2)native).WindowInfo as WinWindowInfo;
                 WinGraphicsMode selector = new WinGraphicsMode(window.DeviceContext);
                 WinGLContext.SetGraphicsModePFD(selector, GraphicsMode.Default, window);
 
