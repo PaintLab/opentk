@@ -102,7 +102,6 @@
   <ItemGroup>
     <Folder Include="Graphics\ES20\" />
     <Folder Include="Math\" />
-    <Folder Include="0_MyExtension\" />
     <Folder Include="Graphics\ES30\" />
     <Folder Include="Platform\Egl\" />
   </ItemGroup>
