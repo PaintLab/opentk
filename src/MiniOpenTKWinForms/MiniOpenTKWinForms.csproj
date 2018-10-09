@@ -1,0 +1,645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43EBD500-B9A1-4671-92D6-35FB835CCA0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MiniOpenTKWinForms</RootNamespace>
+    <AssemblyName>MiniOpenTKWinForms</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;OPENGLES, SDL2</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\OpenTK\Configuration.cs">
+      <Link>Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\Buttons.cs">
+      <Link>Input\Buttons.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\ButtonState.cs">
+      <Link>Input\ButtonState.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\ConfigurationType.cs">
+      <Link>Input\ConfigurationType.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\FileDropEventArgs.cs">
+      <Link>Input\FileDropEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePad.cs">
+      <Link>Input\GamePad.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadAxes.cs">
+      <Link>Input\GamePadAxes.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadButtons.cs">
+      <Link>Input\GamePadButtons.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadCapabilities.cs">
+      <Link>Input\GamePadCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadConfiguration.cs">
+      <Link>Input\GamePadConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadConfigurationDatabase.cs">
+      <Link>Input\GamePadConfigurationDatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadConfigurationItem.cs">
+      <Link>Input\GamePadConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadConfigurationSource.cs">
+      <Link>Input\GamePadConfigurationSource.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadConfigurationTarget.cs">
+      <Link>Input\GamePadConfigurationTarget.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadDPad.cs">
+      <Link>Input\GamePadDPad.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadState.cs">
+      <Link>Input\GamePadState.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadThumbSticks.cs">
+      <Link>Input\GamePadThumbSticks.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadTriggers.cs">
+      <Link>Input\GamePadTriggers.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\GamePadType.cs">
+      <Link>Input\GamePadType.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\HatPosition.cs">
+      <Link>Input\HatPosition.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\IGamePadDriver.cs">
+      <Link>Input\IGamePadDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\IInputDevice.cs">
+      <Link>Input\IInputDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\IInputDriver2.cs">
+      <Link>Input\IInputDriver2.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\IJoystickDriver2.cs">
+      <Link>Input\IJoystickDriver2.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\IKeyboardDriver2.cs">
+      <Link>Input\IKeyboardDriver2.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\IMouseDriver2.cs">
+      <Link>Input\IMouseDriver2.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\Joystick.cs">
+      <Link>Input\Joystick.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\JoystickCapabilities.cs">
+      <Link>Input\JoystickCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\JoystickDevice.cs">
+      <Link>Input\JoystickDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\JoystickHat.cs">
+      <Link>Input\JoystickHat.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\JoystickHatState.cs">
+      <Link>Input\JoystickHatState.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\JoystickState.cs">
+      <Link>Input\JoystickState.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\Key.cs">
+      <Link>Input\Key.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\Keyboard.cs">
+      <Link>Input\Keyboard.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\KeyboardDevice.cs">
+      <Link>Input\KeyboardDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\KeyboardKeyEventArgs.cs">
+      <Link>Input\KeyboardKeyEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\KeyboardState.cs">
+      <Link>Input\KeyboardState.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\KeyModifiers.cs">
+      <Link>Input\KeyModifiers.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\Mouse.cs">
+      <Link>Input\Mouse.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\MouseButton.cs">
+      <Link>Input\MouseButton.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\MouseDevice.cs">
+      <Link>Input\MouseDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\MouseEventArgs.cs">
+      <Link>Input\MouseEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\MouseScroll.cs">
+      <Link>Input\MouseScroll.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Input\MouseState.cs">
+      <Link>Input\MouseState.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\KeyPressEventArgs.cs">
+      <Link>KeyPressEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Minimal.cs">
+      <Link>Minimal.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\MouseCursor.cs">
+      <Link>MouseCursor.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\NativeWindow.cs">
+      <Link>NativeWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Common\Hid.cs">
+      <Link>Platform\Common\Hid.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\DeviceCollection.cs">
+      <Link>Platform\DeviceCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\DisplayDeviceBase.cs">
+      <Link>Platform\DisplayDeviceBase.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\AngleWindowInfo.cs">
+      <Link>Platform\Egl\AngleWindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglAnglePlatformFactory.cs">
+      <Link>Platform\Egl\EglAnglePlatformFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglContext.cs">
+      <Link>Platform\Egl\EglContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglException.cs">
+      <Link>Platform\Egl\EglException.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglGraphicsMode.cs">
+      <Link>Platform\Egl\EglGraphicsMode.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglMacPlatformFactory.cs">
+      <Link>Platform\Egl\EglMacPlatformFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglSdl2PlatformFactory.cs">
+      <Link>Platform\Egl\EglSdl2PlatformFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglUnixContext.cs">
+      <Link>Platform\Egl\EglUnixContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglWinContext.cs">
+      <Link>Platform\Egl\EglWinContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglWindowInfo.cs">
+      <Link>Platform\Egl\EglWindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglWinPlatformFactory.cs">
+      <Link>Platform\Egl\EglWinPlatformFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Egl\EglX11PlatformFactory.cs">
+      <Link>Platform\Egl\EglX11PlatformFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\EmbeddedGraphicsContext.cs">
+      <Link>Platform\EmbeddedGraphicsContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Drm.cs">
+      <Link>Platform\Linux\Bindings\Drm.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Evdev.cs">
+      <Link>Platform\Linux\Bindings\Evdev.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Gbm.cs">
+      <Link>Platform\Linux\Bindings\Gbm.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Kms.cs">
+      <Link>Platform\Linux\Bindings\Kms.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Libc.cs">
+      <Link>Platform\Linux\Bindings\Libc.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\LibInput.cs">
+      <Link>Platform\Linux\Bindings\LibInput.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Poll.cs">
+      <Link>Platform\Linux\Bindings\Poll.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Terminal.cs">
+      <Link>Platform\Linux\Bindings\Terminal.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\Bindings\Udev.cs">
+      <Link>Platform\Linux\Bindings\Udev.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\DefaultCursor.cs">
+      <Link>Platform\Linux\DefaultCursor.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxDisplayDriver.cs">
+      <Link>Platform\Linux\LinuxDisplayDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxFactory.cs">
+      <Link>Platform\Linux\LinuxFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxGraphicsContext.cs">
+      <Link>Platform\Linux\LinuxGraphicsContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxInput.cs">
+      <Link>Platform\Linux\LinuxInput.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxJoystick.cs">
+      <Link>Platform\Linux\LinuxJoystick.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxKeyboardTTY.cs">
+      <Link>Platform\Linux\LinuxKeyboardTTY.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxNativeWindow.cs">
+      <Link>Platform\Linux\LinuxNativeWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Linux\LinuxWindowInfo.cs">
+      <Link>Platform\Linux\LinuxWindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\CarbonWindowInfo.cs">
+      <Link>Platform\MacOS\CarbonWindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Carbon\Cgl.cs">
+      <Link>Platform\MacOS\Carbon\Cgl.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Carbon\MacOSKeys.cs">
+      <Link>Platform\MacOS\Carbon\MacOSKeys.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\CocoaContext.cs">
+      <Link>Platform\MacOS\CocoaContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\CocoaNativeWindow.cs">
+      <Link>Platform\MacOS\CocoaNativeWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\CocoaWindowInfo.cs">
+      <Link>Platform\MacOS\CocoaWindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\Class.cs">
+      <Link>Platform\MacOS\Cocoa\Class.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\Cocoa.cs">
+      <Link>Platform\MacOS\Cocoa\Cocoa.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSApplication.cs">
+      <Link>Platform\MacOS\Cocoa\NSApplication.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSApplicationActivationPolicy.cs">
+      <Link>Platform\MacOS\Cocoa\NSApplicationActivationPolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSApplicationPresentationOptions.cs">
+      <Link>Platform\MacOS\Cocoa\NSApplicationPresentationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSAutoreleasePool.cs">
+      <Link>Platform\MacOS\Cocoa\NSAutoreleasePool.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSBackingStore.cs">
+      <Link>Platform\MacOS\Cocoa\NSBackingStore.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSBitmapFormat.cs">
+      <Link>Platform\MacOS\Cocoa\NSBitmapFormat.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSDragOperation.cs">
+      <Link>Platform\MacOS\Cocoa\NSDragOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSEventModifierMask.cs">
+      <Link>Platform\MacOS\Cocoa\NSEventModifierMask.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSEventType.cs">
+      <Link>Platform\MacOS\Cocoa\NSEventType.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSFloat.cs">
+      <Link>Platform\MacOS\Cocoa\NSFloat.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSOpenGLContextParameter.cs">
+      <Link>Platform\MacOS\Cocoa\NSOpenGLContextParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSOpenGLPixelFormatAttribute.cs">
+      <Link>Platform\MacOS\Cocoa\NSOpenGLPixelFormatAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSOpenGLProfile.cs">
+      <Link>Platform\MacOS\Cocoa\NSOpenGLProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSTrackingAreaOptions.cs">
+      <Link>Platform\MacOS\Cocoa\NSTrackingAreaOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\NSWindowStyle.cs">
+      <Link>Platform\MacOS\Cocoa\NSWindowStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Cocoa\Selector.cs">
+      <Link>Platform\MacOS\Cocoa\Selector.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\CoreVideo.cs">
+      <Link>Platform\MacOS\CoreVideo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\HIDInput.cs">
+      <Link>Platform\MacOS\HIDInput.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\MacOSException.cs">
+      <Link>Platform\MacOS\MacOSException.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\MacOSFactory.cs">
+      <Link>Platform\MacOS\MacOSFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\MacOSKeyMap.cs">
+      <Link>Platform\MacOS\MacOSKeyMap.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\NS.cs">
+      <Link>Platform\MacOS\NS.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\QuartzDisplayDeviceDriver.cs">
+      <Link>Platform\MacOS\QuartzDisplayDeviceDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Quartz\CoreFoundation.cs">
+      <Link>Platform\MacOS\Quartz\CoreFoundation.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Quartz\DisplayServices.cs">
+      <Link>Platform\MacOS\Quartz\DisplayServices.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MacOS\Quartz\EventServices.cs">
+      <Link>Platform\MacOS\Quartz\EventServices.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\MappedGamePadDriver.cs">
+      <Link>Platform\MappedGamePadDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\NativeWindowBase.cs">
+      <Link>Platform\NativeWindowBase.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\PlatformException.cs">
+      <Link>Platform\PlatformException.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\PlatformFactoryBase.cs">
+      <Link>Platform\PlatformFactoryBase.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2.cs">
+      <Link>Platform\SDL2\Sdl2.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2DisplayDeviceDriver.cs">
+      <Link>Platform\SDL2\Sdl2DisplayDeviceDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2Factory.cs">
+      <Link>Platform\SDL2\Sdl2Factory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2GraphicsContext.cs">
+      <Link>Platform\SDL2\Sdl2GraphicsContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2GraphicsMode.cs">
+      <Link>Platform\SDL2\Sdl2GraphicsMode.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2InputDriver.cs">
+      <Link>Platform\SDL2\Sdl2InputDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2JoystickDriver.cs">
+      <Link>Platform\SDL2\Sdl2JoystickDriver.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2Keyboard.cs">
+      <Link>Platform\SDL2\Sdl2Keyboard.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2KeyMap.cs">
+      <Link>Platform\SDL2\Sdl2KeyMap.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2Mouse.cs">
+      <Link>Platform\SDL2\Sdl2Mouse.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2NativeWindow.cs">
+      <Link>Platform\SDL2\Sdl2NativeWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\SDL2\Sdl2WindowInfo.cs">
+      <Link>Platform\SDL2\Sdl2WindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Utilities.cs">
+      <Link>Platform\Utilities.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\API.cs">
+      <Link>Platform\Windows\API.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\Bindings\HidProtocol.cs">
+      <Link>Platform\Windows\Bindings\HidProtocol.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\Bindings\Wgl.cs">
+      <Link>Platform\Windows\Bindings\Wgl.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\Bindings\WglEnums.cs">
+      <Link>Platform\Windows\Bindings\WglEnums.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WglHelper.cs">
+      <Link>Platform\Windows\WglHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinDisplayDevice.cs">
+      <Link>Platform\Windows\WinDisplayDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinFactory.cs">
+      <Link>Platform\Windows\WinFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinGLContext.cs">
+      <Link>Platform\Windows\WinGLContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinGLNative.cs">
+      <Link>Platform\Windows\WinGLNative.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinGraphicsMode.cs">
+      <Link>Platform\Windows\WinGraphicsMode.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinInputBase.cs">
+      <Link>Platform\Windows\WinInputBase.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinKeyMap.cs">
+      <Link>Platform\Windows\WinKeyMap.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinRawInput.cs">
+      <Link>Platform\Windows\WinRawInput.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinRawJoystick.cs">
+      <Link>Platform\Windows\WinRawJoystick.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinRawKeyboard.cs">
+      <Link>Platform\Windows\WinRawKeyboard.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinRawMouse.cs">
+      <Link>Platform\Windows\WinRawMouse.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\WinWindowInfo.cs">
+      <Link>Platform\Windows\WinWindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\Windows\XInputJoystick.cs">
+      <Link>Platform\Windows\XInputJoystick.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\API.cs">
+      <Link>Platform\X11\API.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Bindings\DL.cs">
+      <Link>Platform\X11\Bindings\DL.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Bindings\Glx.cs">
+      <Link>Platform\X11\Bindings\Glx.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Bindings\INotify.cs">
+      <Link>Platform\X11\Bindings\INotify.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Bindings\XI.cs">
+      <Link>Platform\X11\Bindings\XI.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Bindings\Xkb.cs">
+      <Link>Platform\X11\Bindings\Xkb.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Functions.cs">
+      <Link>Platform\X11\Functions.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\Structs.cs">
+      <Link>Platform\X11\Structs.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11DisplayDevice.cs">
+      <Link>Platform\X11\X11DisplayDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11Factory.cs">
+      <Link>Platform\X11\X11Factory.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11GLContext.cs">
+      <Link>Platform\X11\X11GLContext.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11GLNative.cs">
+      <Link>Platform\X11\X11GLNative.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11GraphicsMode.cs">
+      <Link>Platform\X11\X11GraphicsMode.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11Input.cs">
+      <Link>Platform\X11\X11Input.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11Keyboard.cs">
+      <Link>Platform\X11\X11Keyboard.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11KeyMap.cs">
+      <Link>Platform\X11\X11KeyMap.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11Mouse.cs">
+      <Link>Platform\X11\X11Mouse.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\X11WindowInfo.cs">
+      <Link>Platform\X11\X11WindowInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\XI2Input.cs">
+      <Link>Platform\X11\XI2Input.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Platform\X11\XI2MouseKeyboard.cs">
+      <Link>Platform\X11\XI2MouseKeyboard.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\Toolkit.cs">
+      <Link>Toolkit.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\ToolkitOptions.cs">
+      <Link>ToolkitOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\WindowBorder.cs">
+      <Link>WindowBorder.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\WindowIcon.cs">
+      <Link>WindowIcon.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\WindowState.cs">
+      <Link>WindowState.cs</Link>
+    </Compile>
+    <Compile Include="0_Init\SimpleReflectionHelper.cs" />
+    <Compile Include="INativeWindow2.cs" />
+    <Compile Include="Platform\IPlatformFactory2.cs" />
+    <Compile Include="UserGLControl\Agl.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\AglContext.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\AglGraphicsMode.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\Carbon.cs" />
+    <Compile Include="UserGLControl\CarbonGLControl.cs" />
+    <Compile Include="UserGLControl\DummyGLControl.cs" />
+    <Compile Include="UserGLControl\GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserGLControl\GLControl.Designer.cs">
+      <DependentUpon>GLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\GLControlFactory.cs" />
+    <Compile Include="UserGLControl\IGLControl.cs" />
+    <Compile Include="UserGLControl\NS.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserGLControl\Sdl2GLControl.cs" />
+    <Compile Include="UserGLControl\WinGLControl.cs" />
+    <Compile Include="UserGLControl\X11GLControl.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="..\..\OpenTK.snk">
+      <Link>UserGLControl\OpenTK.snk</Link>
+    </None>
+    <AdditionalFiles Include="..\..\stylecop.json">
+      <Link>UserGLControl\stylecop.json</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\..\stylecop.ruleset">
+      <Link>UserGLControl\stylecop.ruleset</Link>
+    </AdditionalFiles>
+    <None Include="UserGLControl\paket.references" />
+    <None Include="UserGLControl\paket.template" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UserGLControl\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniOpenTK\MiniOpenTK.csproj">
+      <Project>{73772a2f-7357-49ca-9fd3-7d8d448f9424}</Project>
+      <Name>MiniOpenTK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
