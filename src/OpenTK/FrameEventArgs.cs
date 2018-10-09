@@ -57,7 +57,7 @@ namespace OpenTK
         public double Time
         {
             get { return elapsed; }
-            internal set
+            set
             {
                 if (value <= 0)
                 {

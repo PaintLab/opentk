@@ -46,6 +46,12 @@
     <Compile Include="..\OpenTK\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
+    <Compile Include="..\OpenTK\GameWindow.cs">
+      <Link>GameWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\OpenTK\IGameWindow.cs">
+      <Link>IGameWindow.cs</Link>
+    </Compile>
     <Compile Include="..\OpenTK\Input\Buttons.cs">
       <Link>Input\Buttons.cs</Link>
     </Compile>
