@@ -1,7 +1,7 @@
-//
+﻿//
 // The Open Toolkit Library License
 //
-// Copyright (c) 2006 - 2009 the Open Toolkit library.
+// Copyright (c) 2006 - 2013 Stefanos Apostolopoulos
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,29 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using OpenTK.Graphics;
 
-namespace OpenTK.Platform
+using OpenTK.Platform;
+
+namespace OpenTK.Graphics
 {
-    // Provides the foundation for all desktop IGraphicsContext implementations.
-    internal abstract class DesktopGraphicsContext : GraphicsContextBase
+    
+
+    public static class PlatformAddressPortal
     {
-        public override void LoadAll()
-        {
-            Stopwatch time = Stopwatch.StartNew();
-
-            #if OPENGL
-            new OpenTK.Graphics.OpenGL.GL().LoadEntryPoints();
-            new OpenTK.Graphics.OpenGL4.GL().LoadEntryPoints();
-            #endif
-            #if OPENGLES
-            //new OpenTK.Graphics.ES11.GL().LoadEntryPoints();
-            new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
-            //new OpenTK.Graphics.ES30.GL().LoadEntryPoints();
-            #endif
-
-            Debug.Print("Bindings loaded in {0} ms.", time.Elapsed.TotalMilliseconds);
-        }
+        //Platform.Utilities.CreateGetAddress()
+        public static GraphicsContext.GetAddressDelegate GetAddressDelegate;
     }
 }

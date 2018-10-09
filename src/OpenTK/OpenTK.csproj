@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_MyExtension\MyExt.cs" />
     <Compile Include="Math\Box2d.cs" />
     <Compile Include="DisplayDevice.cs">
       <SubType>Code</SubType>

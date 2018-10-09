@@ -31,6 +31,7 @@ using OpenTK.Platform;
 
 namespace OpenTK.Graphics
 {
+
     /// <summary>
     /// Represents and provides methods to manipulate an OpenGL render context.
     /// </summary>
@@ -226,7 +227,7 @@ namespace OpenTK.Graphics
 
             // Make sure OpenTK has been initialized.
             // Fixes https://github.com/opentk/opentk/issues/52
-            Toolkit.Init();
+            //Toolkit.Init();
 
             lock (SyncRoot)
             {
@@ -275,7 +276,7 @@ namespace OpenTK.Graphics
         /// <param name="minor">This parameter is reserved.</param>
         /// <param name="flags">This parameter is reserved..</param>
         public GraphicsContext(ContextHandle handle, IWindowInfo window, IGraphicsContext shareContext, int major, int minor, GraphicsContextFlags flags)
-            : this(handle, Platform.Utilities.CreateGetAddress(), Factory.Default.CreateGetCurrentGraphicsContext())
+            : this(handle, PlatformAddressPortal.GetAddressDelegate, Factory.Default.CreateGetCurrentGraphicsContext())
         { }
 
         /// <summary>
@@ -615,7 +616,7 @@ namespace OpenTK.Graphics
         /// Marks this context as deleted, but does not actually release unmanaged resources
         /// due to the threading requirements of OpenGL. Use <see cref="GraphicsContext.Dispose()"/>
         /// instead.
-       /// </summary>
+        /// </summary>
         ~GraphicsContext()
         {
             Dispose(false);

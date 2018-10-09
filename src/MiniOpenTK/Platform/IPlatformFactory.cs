@@ -1,4 +1,4 @@
-//
+﻿//
 // The Open Toolkit Library License
 //
 // Copyright (c) 2006 - 2009 the Open Toolkit library.
@@ -23,29 +23,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System.Diagnostics;
+using System;
 using OpenTK.Graphics;
 
 namespace OpenTK.Platform
 {
-    // Provides the foundation for all desktop IGraphicsContext implementations.
-    internal abstract class DesktopGraphicsContext : GraphicsContextBase
+    public interface IPlatformFactory : IDisposable
     {
-        public override void LoadAll()
-        {
-            Stopwatch time = Stopwatch.StartNew();
+        INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
 
-            #if OPENGL
-            new OpenTK.Graphics.OpenGL.GL().LoadEntryPoints();
-            new OpenTK.Graphics.OpenGL4.GL().LoadEntryPoints();
-            #endif
-            #if OPENGLES
-            //new OpenTK.Graphics.ES11.GL().LoadEntryPoints();
-            new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
-            //new OpenTK.Graphics.ES30.GL().LoadEntryPoints();
-            #endif
+        IDisplayDeviceDriver CreateDisplayDeviceDriver();
 
-            Debug.Print("Bindings loaded in {0} ms.", time.Elapsed.TotalMilliseconds);
-        }
+        IGraphicsContext CreateGLContext(GraphicsMode mode, IWindowInfo window, IGraphicsContext shareContext, bool directRendering, int major, int minor, GraphicsContextFlags flags);
+
+        IGraphicsContext CreateGLContext(ContextHandle handle, IWindowInfo window, IGraphicsContext shareContext, bool directRendering, int major, int minor, GraphicsContextFlags flags);
+
+        GraphicsContext.GetCurrentContextDelegate CreateGetCurrentGraphicsContext();
+
+
+
+        void RegisterResource(IDisposable resource);
     }
 }
