@@ -384,7 +384,7 @@ namespace Bind
 
 #if DEBUG
             _dbugWrite_Id++;
-            if (_dbugWrite_Id == 282)
+            if (_dbugWrite_Id == 24)
             {
 
             }

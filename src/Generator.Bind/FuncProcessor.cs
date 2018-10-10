@@ -725,7 +725,7 @@ namespace Bind
                 {
                     p.QualifiedType = "IntPtr";
                     p.Pointer = 0; // Generic parameters cannot have pointers
-                    p.WrapperType |= WrapperTypes.GenericParameter;
+                   // p.WrapperType |= WrapperTypes.GenericParameter;
                     p.WrapperType |= WrapperTypes.ArrayParameter;
                     p.WrapperType |= WrapperTypes.ReferenceParameter;
                 }
@@ -1101,6 +1101,12 @@ namespace Bind
 
         public IEnumerable<Function> WrapParameters(Function func, EnumCollection enums)
         {
+#if DEBUG
+            if (func.dbugId == 1243)
+            {
+
+            }
+#endif
             if (func.Parameters.Count == 0)
             {
                 // Functions without parameters do not need

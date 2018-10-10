@@ -20,10 +20,10 @@ namespace Bind.Structures
             : base(d)
         {
 #if DEBUG
-            //if (dbugId == 4224 || dbugId == 4361)
-            //{
+            if (dbugId == 4236)
+            {
 
-            //}
+            }
 
 #endif
             TrimmedName = Name = d.Name;

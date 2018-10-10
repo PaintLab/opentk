@@ -15,12 +15,21 @@ namespace Bind.Structures
     internal class Parameter : Type, IComparable<Parameter>, IEquatable<Parameter>
     {
         private string cache;
-
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+#endif
         /// <summary>
         /// Creates a new Parameter without type and name.
         /// </summary>
         public Parameter()
         {
+#if DEBUG
+            if (dbugId == 13631 || dbugId == 13655)
+            {
+
+            }
+#endif
         }
 
         /// <summary>
@@ -30,6 +39,13 @@ namespace Bind.Structures
         public Parameter(Parameter p)
             : base(p)
         {
+
+#if DEBUG
+            if (dbugId == 13631 || dbugId == 13655)
+            {
+
+            }
+#endif
             if (p == null)
             {
                 return;
@@ -308,6 +324,10 @@ namespace Bind.Structures
                         {
                             sb.Append(String.Format("({0}{1})",
                                 p.QualifiedType, (p.Array > 0) ? "[]" : ""));
+                        }
+                        else if (p.CurrentType.ToLower() == "int")
+                        {
+                            sb.Append(String.Format("({0})", p.QualifiedType));
                         }
                         else if (p.IndirectionLevel != 0)
                         {
