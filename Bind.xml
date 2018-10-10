@@ -218,6 +218,11 @@
             Gets the type of the parameter.
             </summary>
         </member>
+        <member name="M:Bind.Structures.Function.CallString(System.String,Bind.Structures.Delegate)">
+            <summary>
+            Returns a string that represents an invocation of this delegate.
+            </summary>
+        </member>
         <member name="T:Bind.Structures.FunctionBody">
             <summary>
             The <see cref="T:Bind.Structures.FunctionBody"/> class acts as a wrapper around a block of source code that makes up the body
@@ -391,6 +396,16 @@
         <member name="T:Bind.Structures.ParameterCollection">
             <summary>
             Holds the parameter list of an opengl function.
+            </summary>
+        </member>
+        <member name="M:Bind.Structures.ParameterCollection.BuildCallStringCache2(Bind.Structures.Delegate)">
+            <summary>
+            Builds a call string instance and caches it.
+            </summary>
+        </member>
+        <member name="M:Bind.Structures.ParameterCollection.BuildCallStringCache">
+            <summary>
+            Builds a call string instance and caches it.
             </summary>
         </member>
         <member name="T:Bind.Structures.FlowDirection">

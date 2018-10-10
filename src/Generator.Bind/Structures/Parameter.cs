@@ -228,6 +228,7 @@ namespace Bind.Structures
         private void BuildCache()
         {
             BuildReferenceAndPointerParametersCache();
+            BuildCallStringCache();
             Rebuild = false;
         }
 
@@ -282,8 +283,144 @@ namespace Bind.Structures
                 return hasGenericParameters;
             }
         }
+        /// <summary>
+        /// Builds a call string instance and caches it.
+        /// </summary>
+        private string BuildCallStringCache2(Delegate forOutput)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("(");
+
+            if (Count > 0)
+            {
+                int p_index = 0;
 
 
+                foreach (Parameter p in this)
+                {
+                    if (p.Unchecked)
+                        sb.Append("unchecked((" + p.QualifiedType + ")");
+
+                    if (!p.Generic && p.CurrentType != "object")
+                    {
+                        if (p.CurrentType.ToLower().Contains("string"))
+                        {
+                            sb.Append(String.Format("({0}{1})",
+                                p.QualifiedType, (p.Array > 0) ? "[]" : ""));
+                        }
+                        else if (p.IndirectionLevel != 0)
+                        {
+                            if (((Settings.Legacy.TurnVoidPointersToIntPtr) != Settings.Legacy.None) &&
+                                p.Pointer != 0 && p.CurrentType.Contains("void"))
+                                sb.Append("(IntPtr)");
+                            else
+                            {
+                                Parameter targetP = forOutput.Parameters[p_index];
+
+                                sb.Append("(");
+                                //sb.Append(p.QualifiedType);
+                                if (targetP.IsEnum)
+                                {
+                                    sb.Append("int");
+                                }
+                                else
+                                {
+                                    sb.Append(targetP.QualifiedType);
+                                }
+
+                                for (int i = 0; i < p.IndirectionLevel; i++)
+                                    sb.Append("*");
+                                sb.Append(")");
+                            }
+                        }
+                        else
+                        {
+                            Parameter targetP = forOutput.Parameters[p_index];
+                            //sb.Append(String.Format("({0})", p.QualifiedType));
+                            sb.Append(String.Format("({0})", targetP.QualifiedType));
+                        }
+                    }
+
+                    sb.Append(p.Name);
+
+                    if (p.Unchecked)
+                        sb.Append(")");
+
+                    sb.Append(", ");
+
+                    //
+
+                    p_index++;
+                }
+                sb.Replace(", ", ")", sb.Length - 2, 2);
+            }
+            else
+            {
+                sb.Append(")");
+            }
+
+            return sb.ToString();
+        }
+        /// <summary>
+        /// Builds a call string instance and caches it.
+        /// </summary>
+        private void BuildCallStringCache()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("(");
+
+            if (Count > 0)
+            {
+                foreach (Parameter p in this)
+                {
+                    if (p.Unchecked)
+                        sb.Append("unchecked((" + p.QualifiedType + ")");
+
+                    if (!p.Generic && p.CurrentType != "object")
+                    {
+                        if (p.CurrentType.ToLower().Contains("string"))
+                        {
+                            sb.Append(String.Format("({0}{1})",
+                                p.QualifiedType, (p.Array > 0) ? "[]" : ""));
+                        }
+                        else if (p.IndirectionLevel != 0)
+                        {
+                            if (((Settings.Legacy.TurnVoidPointersToIntPtr) != Settings.Legacy.None) &&
+                                p.Pointer != 0 && p.CurrentType.Contains("void"))
+                                sb.Append("(IntPtr)");
+                            else
+                            {
+                                sb.Append("(");
+                                sb.Append(p.QualifiedType);
+                                for (int i = 0; i < p.IndirectionLevel; i++)
+                                    sb.Append("*");
+                                sb.Append(")");
+                            }
+                        }
+                        else
+                        {
+                            sb.Append(String.Format("({0})", p.QualifiedType));
+                        }
+                    }
+
+                    sb.Append(p.Name);
+
+                    if (p.Unchecked)
+                        sb.Append(")");
+
+                    sb.Append(", ");
+                }
+                sb.Replace(", ", ")", sb.Length - 2, 2);
+            }
+            else
+            {
+                sb.Append(")");
+            }
+
+            callStringCache = sb.ToString();
+        }
         private void BuildReferenceAndPointerParametersCache()
         {
             foreach (Parameter p in this)
@@ -308,6 +445,22 @@ namespace Bind.Structures
                     hasGenericParameters = true;
                 }
             }
+        }
+
+        string callStringCache = String.Empty;
+        public string CallString(Delegate forOutputDel)
+        {
+            return BuildCallStringCache2(forOutputDel);
+
+            //if (!Rebuild)
+            //{
+            //    return callStringCache;
+            //}
+            //else
+            //{
+            //    BuildCache();
+            //    return callStringCache;
+            //}
         }
 
         // Only use for debugging, not for code generation!

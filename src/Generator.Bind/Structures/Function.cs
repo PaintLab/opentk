@@ -12,9 +12,20 @@ namespace Bind.Structures
 {
     internal class Function : Delegate, IEquatable<Function>, IComparable<Function>
     {
+#if DEBUG
+        static int _debugTotalId;
+        public readonly int dbugId = _debugTotalId++;
+#endif
         public Function(Delegate d)
             : base(d)
         {
+#if DEBUG
+            //if (dbugId == 4224 || dbugId == 4361)
+            //{
+
+            //}
+
+#endif
             TrimmedName = Name = d.Name;
             Body = new FunctionBody();
             WrappedDelegate = d;
@@ -67,7 +78,19 @@ namespace Bind.Structures
                 TrimmedName,
                 Parameters);
         }
+        /// <summary>
+        /// Returns a string that represents an invocation of this delegate.
+        /// </summary>
+        public string CallString(string wrapDelEntryPoint, Delegate forDelegate)
+        {
+            StringBuilder sb = new StringBuilder();
 
+            sb.Append("MyDelSlots.");
+            sb.Append(wrapDelEntryPoint);
+            sb.Append(Parameters.CallString(forDelegate));
+
+            return sb.ToString();
+        }
         public bool Equals(Function other)
         {
             bool result =
@@ -235,9 +258,9 @@ namespace Bind.Structures
                         unsignedFunctions.IsMatch(existing.Name) && !unsignedFunctions.IsMatch(f.Name);
                     replace |=
                         (from p_old in existing.Parameters
-                                        join p_new in f.Parameters on p_old.Name equals p_new.Name
-                                        where p_new.ElementCount == 0 && p_old.ElementCount != 0
-                                        select true)
+                         join p_new in f.Parameters on p_old.Name equals p_new.Name
+                         where p_new.ElementCount == 0 && p_old.ElementCount != 0
+                         select true)
                             .Count() != 0;
                     if (replace)
                     {

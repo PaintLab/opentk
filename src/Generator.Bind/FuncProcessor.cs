@@ -122,8 +122,8 @@ namespace Bind
             Console.WriteLine("Generating wrappers.");
             var wrappers = CreateWrappers(delegates, enums);
 
-            Console.WriteLine("Generating convenience overloads.");
-            wrappers.AddRange(CreateConvenienceOverloads(wrappers));
+            //Console.WriteLine("Generating convenience overloads.");
+            //wrappers.AddRange(CreateConvenienceOverloads(wrappers));
 
             Console.WriteLine("Generating CLS compliant overloads.");
             wrappers = CreateCLSCompliantWrappers(wrappers, enums);
