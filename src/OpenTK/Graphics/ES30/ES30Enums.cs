@@ -14136,7 +14136,7 @@ namespace OpenTK.Graphics.ES30
     /// <summary>
     /// Used in GL.Oes.MapBuffer
     /// </summary>
-    public enum BufferAccessArb : int
+    public enum BufferAccessARB : int
     {
         /// <summary>
         /// Original was GL_READ_ONLY = 0x88B8
@@ -14529,7 +14529,7 @@ namespace OpenTK.Graphics.ES30
     /// <summary>
     /// Used in GL.Ext.BufferStorageMem, GL.Oes.MapBuffer
     /// </summary>
-    public enum BufferTargetArb : int
+    public enum BufferTargetARB : int
     {
         /// <summary>
         /// Original was GL_ARRAY_BUFFER = 0x8892
@@ -14611,7 +14611,7 @@ namespace OpenTK.Graphics.ES30
     /// <summary>
     /// Not used directly.
     /// </summary>
-    public enum BufferUsageArb : int
+    public enum BufferUsageARB : int
     {
         /// <summary>
         /// Original was GL_STREAM_DRAW = 0x88E0
@@ -21764,7 +21764,7 @@ namespace OpenTK.Graphics.ES30
     /// <summary>
     /// Not used directly.
     /// </summary>
-    public enum FragmentOpAti : int
+    public enum FragmentOpATI : int
     {
         /// <summary>
         /// Original was GL_MOV_ATI = 0x8961
@@ -34246,7 +34246,7 @@ namespace OpenTK.Graphics.ES30
     /// <summary>
     /// Not used directly.
     /// </summary>
-    public enum ProgramPropertyArb : int
+    public enum ProgramPropertyARB : int
     {
         /// <summary>
         /// Original was GL_COMPUTE_WORK_GROUP_SIZE = 0x8267

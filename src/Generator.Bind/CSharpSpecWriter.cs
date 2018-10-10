@@ -212,6 +212,18 @@ namespace Bind
             sw.WriteLine("}");
             sw.WriteLine();
 
+
+            BindStreamWriter sw2 = new BindStreamWriter("d:\\WImageTest\\tmpBind.cs");
+            {
+
+                sw2.WriteLine("namespace OpenTK.Graphics.ES30.Ex{");
+                sw2.WriteLine(" using System;");
+                sw2.WriteLine(" using System.Text;");
+                sw2.WriteLine(" using System.Runtime.InteropServices; ");
+                sw2.WriteLine("  public static class GLES{");
+            }
+
+
             int current_wrapper = 0;
             foreach (string key in wrappers.Keys)
             {
@@ -220,41 +232,108 @@ namespace Bind
                     if (!Char.IsDigit(key[0]))
                     {
                         sw.WriteLine("public static partial class {0}", key);
+                        sw2.WriteLine("public static partial class {0}", key);
                     }
                     else
                     {
                         // Identifiers cannot start with a number:
                         sw.WriteLine("public static partial class {0}{1}", Settings.ConstantPrefix, key);
+                        sw2.WriteLine("public static partial class {0}{1}", Settings.ConstantPrefix, key);
                     }
                     sw.WriteLine("{");
                     sw.Indent();
+                    //
+                    sw2.WriteLine("{");
+                    sw2.Indent();
                 }
 
                 wrappers[key].Sort();
+
                 foreach (Function f in wrappers[key])
                 {
                     WriteWrapper(sw, f, enums);
+                    WriteWrapper2(sw2, f, enums);
                     current_wrapper++;
                 }
+
+
 
                 if (((Settings.Compatibility & Settings.Legacy.NoSeparateFunctionNamespaces) == Settings.Legacy.None) && key != "Core")
                 {
                     sw.Unindent();
                     sw.WriteLine("}");
                     sw.WriteLine();
+                    //
+                    sw2.Unindent();
+                    sw2.WriteLine("}");
+                    sw2.WriteLine();
                 }
+            }
+
+            {
+                sw2.WriteLine("}"); //close GLES class
+                sw2.WriteLine("}"); //close namespace
+                sw2.Flush();
+                sw2.Close();
             }
 
             // Emit native signatures.
             // These are required by the patcher.
+
             int current_signature = 0;
-            foreach (var d in wrappers.Values.SelectMany(e => e).Select(w => w.WrappedDelegate).Distinct())
+
+
+
+
+            List<Delegate> outputFuncs = new List<Delegate>();
+
+            foreach (Delegate d in wrappers.Values.SelectMany(e => e).Select(w => w.WrappedDelegate).Distinct())
             {
                 sw.WriteLine("[Slot({0})]", d.Slot);
                 sw.WriteLine("[DllImport(Library, ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]");
                 sw.WriteLine("private static extern {0};", GetDeclarationString(d, false));
+                outputFuncs.Add(d);
                 current_signature++;
             }
+
+            using (MemoryStream ms = new MemoryStream())
+            using (StreamWriter ww = new StreamWriter(ms))
+            {
+                ww.WriteLine("namespace OpenTK.Graphics.ES30.Ex{");
+                ww.WriteLine(" using System;");
+                ww.WriteLine(" using System.Text;");
+                ww.WriteLine(" using System.Runtime.InteropServices; ");
+                //my experiment
+                for (int i = 0; i < outputFuncs.Count; ++i)
+                {
+                    Delegate d = outputFuncs[i];
+                    ww.WriteLine();
+                    ww.WriteLine($"public {GetDeclarationString2(d, true)};");
+                    ww.WriteLine();
+                }
+                //------------
+                //create delegate slot
+                ww.WriteLine("static class MyDelSlots{");
+                for (int i = 0; i < outputFuncs.Count; ++i)
+                {
+                    Delegate d = outputFuncs[i];
+                    ww.WriteLine();
+                    ww.WriteLine($"public static {d.Name}  {Settings.FunctionPrefix + d.Name};");
+                    ww.WriteLine();
+                }
+
+                ww.WriteLine("}"); //close class
+                //------------
+                ww.WriteLine("}");
+                ww.Flush();
+                //
+                string api1 = Encoding.UTF8.GetString(ms.ToArray());
+                File.WriteAllText("d:\\WImageTest\\gles30.cs", api1);
+                //
+
+            }
+
+
 
             sw.Unindent();
             sw.WriteLine("}");
@@ -270,6 +349,43 @@ namespace Bind
             }
             WriteMethod(sw, f, enums);
             sw.WriteLine();
+        }
+        private void WriteWrapper2(BindStreamWriter sw, Function f, EnumCollection enums)
+        {
+            if ((Settings.Compatibility & Settings.Legacy.NoDocumentation) == 0)
+            {
+                //WriteDocumentation(sw, f);
+            }
+            WriteMethod2(sw, f, enums);
+            sw.WriteLine();
+        }
+        private void WriteMethod2(BindStreamWriter sw, Function f, EnumCollection enums)
+        {
+
+            if (!String.IsNullOrEmpty(f.Obsolete))
+            {
+                sw.WriteLine("[Obsolete(\"{0}\")]", f.Obsolete);
+            }
+            else if (f.Deprecated && Settings.IsEnabled(Settings.Legacy.AddDeprecationWarnings))
+            {
+                sw.WriteLine("[Obsolete(\"Deprecated in OpenGL {0}\")]", f.DeprecatedVersion);
+            }
+
+            sw.WriteLine("[AutoGenerated(Category = \"{0}\", Version = \"{1}\", EntryPoint = \"{2}\")]",
+                f.Category, f.Version, Settings.FunctionPrefix + f.WrappedDelegate.EntryPoint);
+
+            if (!f.CLSCompliant)
+            {
+                sw.WriteLine("[CLSCompliant(false)]");
+            }
+
+            sw.WriteLine($"public static { GetDeclarationString(f, Settings.Compatibility)}" + "{");
+            //body
+            //-----
+            sw.WriteLine("//hello!");
+
+            //-----
+            sw.WriteLine("}");
         }
 
         private void WriteMethod(BindStreamWriter sw, Function f, EnumCollection enums)
@@ -417,7 +533,7 @@ namespace Bind
 
         private void WriteConstants(BindStreamWriter sw, IEnumerable<Constant> constants)
         {
-             // Make sure everything is sorted. This will avoid random changes between
+            // Make sure everything is sorted. This will avoid random changes between
             // consecutive runs of the program.
             constants = constants.OrderBy(c => c);
 
@@ -606,12 +722,27 @@ namespace Bind
 
             return sb.ToString();
         }
+        private string GetDeclarationString2(Delegate d, bool is_delegate)
+        {
+            StringBuilder sb = new StringBuilder();
 
+            sb.Append(d.Unsafe ? "unsafe " : "");
+            if (is_delegate)
+            {
+                sb.Append("delegate ");
+            }
+            sb.Append(GetDeclarationString(d.ReturnType, Settings.Legacy.ConstIntEnums));
+            sb.Append(" ");
+            sb.Append(d.Name);
+            sb.Append(GetDeclarationString(d.Parameters, Settings.Legacy.ConstIntEnums));
+
+            return sb.ToString();
+        }
         private string GetDeclarationString(Enum e)
         {
             StringBuilder sb = new StringBuilder();
             List<Constant> constants = new List<Constant>(e.ConstantCollection.Values);
-            constants.Sort(delegate(Constant c1, Constant c2)
+            constants.Sort(delegate (Constant c1, Constant c2)
             {
                 int ret = String.Compare(c1.Value, c2.Value);
                 if (ret == 0)
@@ -662,7 +793,7 @@ namespace Bind
             if (f.Parameters.HasGenericParameters)
             {
                 sb.Append("<");
-                foreach (Parameter p in f.Parameters.Where(p  => p.Generic))
+                foreach (Parameter p in f.Parameters.Where(p => p.Generic))
                 {
                     sb.Append(p.CurrentType);
                     sb.Append(", ");

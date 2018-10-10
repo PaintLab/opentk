@@ -10,9 +10,28 @@ namespace OpenTK.Platform
     using System;
     using System.Diagnostics;
 
+
     public sealed class Factory : IPlatformFactory
     {
         private bool disposed;
+
+        public static Func<IPlatformFactory> GetCustomPlatformFactory;
+
+        public Factory()
+        {
+
+            Default = GetCustomPlatformFactory();
+            Embedded = Default;
+            Angle = Default;
+            //#endif
+            //                }
+            //#endif
+            //                else
+            //                {
+            //                    Embedded = new UnsupportedPlatform();
+            //                    Angle = Embedded;
+        }
+
 
         //            static Factory()
         //            {

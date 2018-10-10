@@ -30,6 +30,11 @@ using OpenTK.Input;
 
 namespace OpenTK.Platform.Egl
 {
+    public static class EglAngle
+    {
+        //public static IPlatformFactory NewFactory() => new EglAnglePlatformFactory(new EglWinPlatformFactory());
+        public static IPlatformFactory NewFactory() => new EglWinPlatformFactory();
+    }
     internal class EglAnglePlatformFactory : PlatformFactoryBase
     {
         private readonly IPlatformFactory2 _platform_factory;
