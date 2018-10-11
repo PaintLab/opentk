@@ -37,7 +37,7 @@ namespace OpenTK.Platform.Egl
 
         public EglWinContext(GraphicsMode mode, EglWindowInfo window, IGraphicsContext sharedContext,
             int major, int minor, GraphicsContextFlags flags)
-            : base(mode, window, sharedContext, major, minor, flags)
+            : base(mode, window, sharedContext, 3, 0, flags | GraphicsContextFlags.Embedded | GraphicsContextFlags.AngleD3D11 | GraphicsContextFlags.Angle)
         {
         }
 

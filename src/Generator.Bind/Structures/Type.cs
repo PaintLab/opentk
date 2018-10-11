@@ -37,7 +37,34 @@ namespace Bind.Structures
         }
 
         private string PreviousQualifier { get; set; } = String.Empty;
+        public string GetCLSCompliantType()
+        {
+            if (!CLSCompliant)
+            {
+                if (Pointer != 0)
+                    return "IntPtr";
 
+                switch (CurrentType)
+                {
+                    case "UInt16":
+                    case "ushort":
+                        return "Int16";
+                    case "UInt32":
+                    case "uint":
+                        return "Int32";
+                    case "UInt64":
+                    case "ulong":
+                        return "Int64";
+                    case "SByte":
+                    case "sbyte":
+                        return "Byte";
+                    case "UIntPtr":
+                        return "IntPtr";
+                }
+            }
+
+            return CurrentType;
+        }
         public string QualifiedType
         {
             get
@@ -222,6 +249,10 @@ namespace Bind.Structures
                 CurrentType,
                 PointerLevels[Pointer],
                 ArrayLevels[Array]);
+        }
+        public int IndirectionLevel
+        {
+            get { return Pointer + Array + (Reference ? 1 : 0); }
         }
 
         public int CompareTo(Type other)

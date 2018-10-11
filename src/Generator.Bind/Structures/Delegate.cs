@@ -187,6 +187,7 @@ namespace Bind.Structures
 
         // Slot index in the address table
         public int Slot { get; set; }
+        
 
         // This method should only be used for debugging purposes, not for code generation!
         // Returns a string representing the full delegate declaration without decorations.

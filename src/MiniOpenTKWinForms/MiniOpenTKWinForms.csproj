@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43EBD500-B9A1-4671-92D6-35FB835CCA0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MiniOpenTKWinForms</RootNamespace>
+    <AssemblyName>MiniOpenTKWinForms</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;OPENGLES, SDL2,WIN32</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UserGLControl\Agl.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\AglContext.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\AglGraphicsMode.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\Carbon.cs" />
+    <Compile Include="UserGLControl\CarbonGLControl.cs" />
+    <Compile Include="UserGLControl\DummyGLControl.cs" />
+    <Compile Include="UserGLControl\GLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserGLControl\GLControl.Designer.cs">
+      <DependentUpon>GLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserGLControl\GLControlFactory.cs" />
+    <Compile Include="UserGLControl\IGLControl.cs" />
+    <Compile Include="UserGLControl\NS.cs">
+      <DependentUpon>CarbonGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserGLControl\Sdl2GLControl.cs" />
+    <Compile Include="UserGLControl\WinGLControl.cs" />
+    <Compile Include="UserGLControl\X11GLControl.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="..\..\OpenTK.snk">
+      <Link>UserGLControl\OpenTK.snk</Link>
+    </None>
+    <AdditionalFiles Include="..\..\stylecop.json">
+      <Link>UserGLControl\stylecop.json</Link>
+    </AdditionalFiles>
+    <AdditionalFiles Include="..\..\stylecop.ruleset">
+      <Link>UserGLControl\stylecop.ruleset</Link>
+    </AdditionalFiles>
+    <None Include="UserGLControl\paket.references" />
+    <None Include="UserGLControl\paket.template" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UserGLControl\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniOpenTK\MiniOpenTK.csproj">
+      <Project>{73772a2f-7357-49ca-9fd3-7d8d448f9424}</Project>
+      <Name>MiniOpenTK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="..\OpenTK\MiniOpenTK_Core2.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

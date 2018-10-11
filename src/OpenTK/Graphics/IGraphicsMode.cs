@@ -6,7 +6,7 @@
 
 namespace OpenTK.Graphics
 {
-    internal interface IGraphicsMode
+    public interface IGraphicsMode
     {
         // Creates a temporary OpenGL context (if necessary) and finds the mode which closest matches
         // the specified parameters.

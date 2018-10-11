@@ -43,7 +43,7 @@ namespace OpenTK.Platform.Egl
     using EGLSurface = IntPtr;
     using EGLClientBuffer = IntPtr;
 
-    internal enum RenderApi
+    public enum RenderApi
     {
         ES = Egl.OPENGL_ES_API,
         GL = Egl.OPENGL_API,
@@ -51,7 +51,7 @@ namespace OpenTK.Platform.Egl
     }
 
     [Flags]
-    internal enum RenderableFlags
+    public enum RenderableFlags
     {
         ES = Egl.OPENGL_ES_BIT,
         ES2 = Egl.OPENGL_ES2_BIT,
@@ -79,7 +79,7 @@ namespace OpenTK.Platform.Egl
         CONTEXT_LOST = 12302,
     }
 
-    internal enum SurfaceType
+    public enum SurfaceType
     {
         PBUFFER_BIT = 0x0001,
         PIXMAP_BIT = 0x0002,
@@ -90,7 +90,7 @@ namespace OpenTK.Platform.Egl
         SWAP_BEHAVIOR_PRESERVED_BIT = 0x0400,
     }
 
-    internal static partial class Egl
+    public static partial class Egl
     {
         public const int VERSION_1_0 = 1;
         public const int VERSION_1_1 = 1;
@@ -273,7 +273,7 @@ namespace OpenTK.Platform.Egl
         public static extern bool GetConfigAttrib(EGLDisplay dpy, EGLConfig config, int attribute, out int value);
 
         [DllImportAttribute("libEGL.dll", EntryPoint = "eglCreateWindowSurface")]
-        public static extern  EGLSurface CreateWindowSurface(EGLDisplay dpy, EGLConfig config, IntPtr win, IntPtr attrib_list);
+        public static extern EGLSurface CreateWindowSurface(EGLDisplay dpy, EGLConfig config, IntPtr win, IntPtr attrib_list);
 
         [DllImportAttribute("libEGL.dll", EntryPoint = "eglCreatePbufferSurface")]
         public static extern EGLSurface CreatePbufferSurface(EGLDisplay dpy, EGLConfig config, int[] attrib_list);
@@ -395,7 +395,7 @@ namespace OpenTK.Platform.Egl
             get
             {
                 try { GetCurrentContext(); }
-                catch (Exception) { return false;  }
+                catch (Exception) { return false; }
                 return true;
             }
         }

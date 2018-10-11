@@ -46,7 +46,7 @@ namespace OpenTK
         private List<DisplayResolution> available_resolutions = new List<DisplayResolution>();
         private IList<DisplayResolution> available_resolutions_readonly;
 
-        internal object Id; // A platform-specific id for this monitor
+        public object Id; // A platform-specific id for this monitor
 
         private static readonly object display_lock = new object();
         private static DisplayDevice primary_display;
@@ -58,12 +58,12 @@ namespace OpenTK
             implementation = Platform.Factory.Default.CreateDisplayDeviceDriver();
         }
 
-        internal DisplayDevice()
+        public DisplayDevice()
         {
             available_resolutions_readonly = available_resolutions.AsReadOnly();
         }
 
-        internal DisplayDevice(DisplayResolution currentResolution, bool primary,
+        public DisplayDevice(DisplayResolution currentResolution, bool primary,
             IEnumerable<DisplayResolution> availableResolutions, Rectangle bounds,
             object id)
             : this()
@@ -72,9 +72,9 @@ namespace OpenTK
             this.current_resolution = currentResolution;
             IsPrimary = primary;
             this.available_resolutions.AddRange(availableResolutions);
-            #pragma warning disable 612,618
+#pragma warning disable 612, 618
             this.bounds = bounds == Rectangle.Empty ? currentResolution.Bounds : bounds;
-            #pragma warning restore 612,618
+#pragma warning restore 612, 618
             this.Id = id;
         }
 
@@ -84,7 +84,7 @@ namespace OpenTK
         public Rectangle Bounds
         {
             get { return bounds; }
-            internal set
+            set
             {
                 bounds = value;
                 current_resolution.Height = bounds.Height;
@@ -102,7 +102,7 @@ namespace OpenTK
         public int BitsPerPixel
         {
             get { return current_resolution.BitsPerPixel; }
-            internal set { current_resolution.BitsPerPixel = value; }
+            set { current_resolution.BitsPerPixel = value; }
         }
 
         /// <summary>
@@ -111,14 +111,14 @@ namespace OpenTK
         public float RefreshRate
         {
             get { return current_resolution.RefreshRate; }
-            internal set { current_resolution.RefreshRate = value; }
+            set { current_resolution.RefreshRate = value; }
         }
 
         /// <summary>Gets a System.Boolean that indicates whether this Display is the primary Display in systems with multiple Displays.</summary>
         public bool IsPrimary
         {
             get { return primary; }
-            internal set
+            set
             {
                 if (value && primary_display != null && primary_display != this)
                 {
@@ -176,7 +176,7 @@ namespace OpenTK
         public IList<DisplayResolution> AvailableResolutions
         {
             get { return available_resolutions_readonly; }
-            internal set
+            set
             {
                 available_resolutions = (List<DisplayResolution>)value;
                 available_resolutions_readonly = available_resolutions.AsReadOnly();
@@ -270,9 +270,9 @@ namespace OpenTK
         /// <summary>
         /// Gets the original resolution of this instance.
         /// </summary>
-        internal DisplayResolution OriginalResolution { get; set; }
+        public DisplayResolution OriginalResolution { get; set; }
 
-        internal static DisplayDevice FromPoint(int x, int y)
+        public static DisplayDevice FromPoint(int x, int y)
         {
             for (DisplayIndex i = DisplayIndex.First; i < DisplayIndex.Sixth; i++)
             {
@@ -290,7 +290,7 @@ namespace OpenTK
 
         private DisplayResolution FindResolution(int width, int height, int bitsPerPixel, float refreshRate)
         {
-            return available_resolutions.Find(delegate(DisplayResolution test)
+            return available_resolutions.Find(delegate (DisplayResolution test)
             {
                 return
                     ((width > 0 && width == test.Width) || width == 0) &&

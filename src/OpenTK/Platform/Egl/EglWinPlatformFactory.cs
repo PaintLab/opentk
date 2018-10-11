@@ -32,6 +32,10 @@ namespace OpenTK.Platform.Egl
     // EGL factory for the Windows platform.
     internal class EglWinPlatformFactory : WinFactory
     {
+        public EglWinPlatformFactory()
+        {
+
+        }
         public override IGraphicsContext CreateGLContext(GraphicsMode mode, IWindowInfo window, IGraphicsContext shareContext, bool directRendering, int major, int minor, GraphicsContextFlags flags)
         {
             WinWindowInfo win_win = (WinWindowInfo)window;

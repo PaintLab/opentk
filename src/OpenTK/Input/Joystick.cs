@@ -40,7 +40,7 @@ namespace OpenTK.Input
     public sealed class Joystick
     {
         private static readonly IJoystickDriver2 implementation =
-            Platform.Factory.Default.CreateJoystickDriver();
+           ((Platform.IPlatformFactory2)Platform.Factory.Default).CreateJoystickDriver();
 
         private Joystick() { }
 

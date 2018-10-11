@@ -132,7 +132,8 @@ namespace OpenTK
 
                     // The actual initialization takes place in the
                     // platform-specific factory constructors.
-                    toolkit = new Toolkit(new Factory());
+                    Factory f1 = new Factory();
+                    toolkit = new Toolkit(f1);
                 }
                 return toolkit;
             }
@@ -166,7 +167,7 @@ namespace OpenTK
             }
         }
 
-        #if DEBUG
+#if DEBUG
         /// <summary>
         /// Finalizes this instance.
         /// </summary>
@@ -176,6 +177,6 @@ namespace OpenTK
             // We may not Dispose() the toolkit from the finalizer thread,
             // as that will crash on many operating systems.
         }
-        #endif
+#endif
     }
 }

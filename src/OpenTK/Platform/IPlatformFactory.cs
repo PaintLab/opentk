@@ -28,7 +28,7 @@ using OpenTK.Graphics;
 
 namespace OpenTK.Platform
 {
-    internal interface IPlatformFactory : IDisposable
+    public interface IPlatformFactory : IDisposable
     {
         INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
 
@@ -40,13 +40,13 @@ namespace OpenTK.Platform
 
         GraphicsContext.GetCurrentContextDelegate CreateGetCurrentGraphicsContext();
 
-        OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
+        //OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
 
-        OpenTK.Input.IMouseDriver2 CreateMouseDriver();
+        //OpenTK.Input.IMouseDriver2 CreateMouseDriver();
 
-        OpenTK.Input.IGamePadDriver CreateGamePadDriver();
+        //OpenTK.Input.IGamePadDriver CreateGamePadDriver();
 
-        Input.IJoystickDriver2 CreateJoystickDriver();
+        //Input.IJoystickDriver2 CreateJoystickDriver();
 
         void RegisterResource(IDisposable resource);
     }

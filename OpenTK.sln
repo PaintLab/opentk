@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator.Bind", "src\Generator.Bind\Generator.Bind.csproj", "{31D19132-0000-0000-0000-000000000000}"
 EndProject
@@ -29,10 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{F1A570
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{5EEEC96B-BD2F-45B0-935D-19E9E6D7D969}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		build.fsx = build.fsx
 		README.md = README.md
 		RELEASE_NOTES.md = RELEASE_NOTES.md
-		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "OpenTK.Tests", "tests\OpenTK.Tests\OpenTK.Tests.fsproj", "{6801C263-ADDA-4A7B-979D-649BCB5A1DF7}"
@@ -43,7 +43,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK.Tests.Math", "tests\
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "OpenTK.Tests.Generators", "tests\OpenTK.Tests.Generators\OpenTK.Tests.Generators.fsproj", "{2B11AAEB-D8AC-4356-938F-532D720E0C30}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniOpenTK", "src\MiniOpenTK\MiniOpenTK.csproj", "{73772A2F-7357-49CA-9FD3-7D8D448F9424}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniOpenTKWinForms", "src\MiniOpenTKWinForms\MiniOpenTKWinForms.csproj", "{43EBD500-B9A1-4671-92D6-35FB835CCA0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTriangle", "..\opentk-examples-master\src\BasicTriangle\BasicTriangle.csproj", "{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MiniOpenTK_Core1", "src\OpenTK\MiniOpenTK_Core1.shproj", "{17B7FB0C-7638-4C89-AADF-F3835803CB17}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MiniOpenTK_Core2", "src\OpenTK\MiniOpenTK_Core2.shproj", "{FF741509-C054-49D1-AA4F-C3E10BB2A63E}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\OpenTK\MiniOpenTK_Core1.projitems*{17b7fb0c-7638-4c89-aadf-f3835803cb17}*SharedItemsImports = 13
+		src\OpenTK\MiniOpenTK_Core2.projitems*{43ebd500-b9a1-4671-92d6-35fb835cca0f}*SharedItemsImports = 4
+		src\OpenTK\MiniOpenTK_Core2.projitems*{ff741509-c054-49d1-aa4f-c3e10bb2a63e}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -97,6 +112,18 @@ Global
 		{2B11AAEB-D8AC-4356-938F-532D720E0C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B11AAEB-D8AC-4356-938F-532D720E0C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B11AAEB-D8AC-4356-938F-532D720E0C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73772A2F-7357-49CA-9FD3-7D8D448F9424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73772A2F-7357-49CA-9FD3-7D8D448F9424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73772A2F-7357-49CA-9FD3-7D8D448F9424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73772A2F-7357-49CA-9FD3-7D8D448F9424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43EBD500-B9A1-4671-92D6-35FB835CCA0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EBD500-B9A1-4671-92D6-35FB835CCA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EBD500-B9A1-4671-92D6-35FB835CCA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EBD500-B9A1-4671-92D6-35FB835CCA0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,5 +133,9 @@ Global
 		{522D9279-3ED6-475F-867A-6AE69A53C24A} = {1857BB8E-1A35-4EBF-9F6D-685F11DC025B}
 		{C2B07CD9-B388-4FC3-AF31-C648F7EA904E} = {1857BB8E-1A35-4EBF-9F6D-685F11DC025B}
 		{2B11AAEB-D8AC-4356-938F-532D720E0C30} = {1857BB8E-1A35-4EBF-9F6D-685F11DC025B}
+		{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF} = {1857BB8E-1A35-4EBF-9F6D-685F11DC025B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E5408E2-D8EE-4B94-923F-E48F40323736}
 	EndGlobalSection
 EndGlobal

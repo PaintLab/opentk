@@ -165,7 +165,7 @@ namespace OpenTK.Platform.Linux
         public IntPtr ctime;   /* time of last status change */
     }
 
-    internal struct EvdevInputId
+    public struct EvdevInputId
     {
         public ushort BusType;
         public ushort Vendor;

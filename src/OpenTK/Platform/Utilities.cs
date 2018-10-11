@@ -171,32 +171,32 @@ namespace OpenTK.Platform
             return @new != null;
         }
 
-        internal static GraphicsContext.GetAddressDelegate CreateGetAddress()
+        public static GraphicsContext.GetAddressDelegate CreateGetAddress()
         {
-            #if SDL2
+#if SDL2
             if (Configuration.RunningOnSdl2)
             {
                 return Platform.SDL2.SDL.GL.GetProcAddress;
             }
-            #endif
-            #if WIN32
+#endif
+#if WIN32
             if (Configuration.RunningOnWindows)
             {
                 return Platform.Windows.Wgl.GetAddress;
             }
-            #endif
-            #if X11
+#endif
+#if X11
             if (Configuration.RunningOnX11)
             {
                 return Platform.X11.Glx.GetProcAddress;
             }
-            #endif
-            #if CARBON
+#endif
+#if CARBON
             if (Configuration.RunningOnMacOS)
             {
                 return Platform.MacOS.NS.GetAddress;
             }
-            #endif
+#endif
 
             // Other platforms: still allow dummy contexts to be created (if no Loader is required)
             return EmptyGetAddress;
@@ -218,7 +218,7 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateX11WindowInfo(IntPtr display, int screen, IntPtr windowHandle, IntPtr rootWindow, IntPtr visualInfo)
         {
-            #if X11
+#if X11
             Platform.X11.X11WindowInfo window = new OpenTK.Platform.X11.X11WindowInfo();
             window.Display = display;
             window.Screen = screen;
@@ -226,9 +226,9 @@ namespace OpenTK.Platform
             window.RootWindow = rootWindow;
             window.Visual = visualInfo;
             return window;
-            #else
+#else
             return new Dummy.DummyWindowInfo();
-            #endif
+#endif
         }
 
         /// <summary>
@@ -238,11 +238,11 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateWindowsWindowInfo(IntPtr windowHandle)
         {
-            #if WIN32
+#if WIN32
             return new OpenTK.Platform.Windows.WinWindowInfo(windowHandle, null);
-            #else
+#else
             return new Dummy.DummyWindowInfo();
-            #endif
+#endif
         }
 
         /// <summary>
@@ -254,14 +254,14 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateMacOSCarbonWindowInfo(IntPtr windowHandle, bool ownHandle, bool isControl)
         {
-            #if CARBON
+#if CARBON
             return CreateMacOSCarbonWindowInfo(windowHandle, ownHandle, isControl, null, null);
-            #else
+#else
             return new Dummy.DummyWindowInfo();
-            #endif
+#endif
         }
 
-        #if CARBON
+#if CARBON
         /// <summary>
         /// Creates an IWindowInfo instance for the Mac OS X platform with an X and Y offset for the GL viewport location.
         /// </summary>
@@ -276,7 +276,7 @@ namespace OpenTK.Platform
         {
             return new OpenTK.Platform.MacOS.CarbonWindowInfo(windowHandle, false, isControl, xOffset, yOffset);
         }
-        #endif
+#endif
 
         /// <summary>
         /// Creates an IWindowInfo instance for the Mac OS X platform.
@@ -286,11 +286,11 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateMacOSWindowInfo(IntPtr windowHandle)
         {
-            #if CARBON
+#if CARBON
             return new OpenTK.Platform.MacOS.CocoaWindowInfo(windowHandle);
-            #else
+#else
             return new Dummy.DummyWindowInfo();
-            #endif
+#endif
         }
 
         /// <summary>
@@ -301,11 +301,11 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateMacOSWindowInfo(IntPtr windowHandle, IntPtr viewHandle)
         {
-            #if CARBON
+#if CARBON
             return new OpenTK.Platform.MacOS.CocoaWindowInfo(windowHandle, viewHandle);
-            #else
+#else
             return new Dummy.DummyWindowInfo();
-            #endif
+#endif
         }
 
         /// <summary>
@@ -324,15 +324,15 @@ namespace OpenTK.Platform
         /// <returns>A new IWindowInfo instance.</returns>
         public static IWindowInfo CreateSdl2WindowInfo(IntPtr windowHandle)
         {
-            #if SDL2
+#if SDL2
             return new OpenTK.Platform.SDL2.Sdl2WindowInfo(
                 windowHandle, null);
-            #else
+#else
             return new Dummy.DummyWindowInfo();
-            #endif
+#endif
         }
 
-        #if !__MOBILE__
+#if !__MOBILE__
         /// <summary>
         /// Creates an IWindowInfo instance for Angle rendering, based on
         /// supplied platform window (e.g. a window created with
@@ -344,7 +344,7 @@ namespace OpenTK.Platform
         {
             return new Egl.AngleWindowInfo(platformWindow);
         }
-        #endif
+#endif
 
         internal static bool RelaxGraphicsMode(ref GraphicsMode mode)
         {
