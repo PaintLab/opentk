@@ -80,6 +80,8 @@ namespace Bind
             // Enums
             using (BindStreamWriter sw = new BindStreamWriter(temp_enums_file))
             {
+                sw.WriteLine("//autogen " + DateTime.Now.ToString("u"));
+
                 WriteLicense(sw);
 
                 sw.WriteLine("using System;");
@@ -154,6 +156,9 @@ namespace Bind
 
             File.Move(temp_enums_file, output_enums);
             File.Move(temp_wrappers_file, output_wrappers);
+            //COPY
+            string es30EnumFile = @"src\MiniOpenTK\Graphics\ES30\ES30Enum.cs";
+            File.Copy(output_enums, es30EnumFile, true);
         }
 
         private void WriteWrappers(BindStreamWriter sw, FunctionCollection wrappers,
@@ -218,10 +223,11 @@ namespace Bind
             sw.WriteLine();
 
 
-            BindStreamWriter sw2 = new BindStreamWriter("d:\\WImageTest\\tmpBind.cs");
+            string glClassFile = @"src\MiniOpenTK\Graphics\ES30\ES30.cs";
+            BindStreamWriter sw2 = new BindStreamWriter(glClassFile);
             {
-                sw2.WriteLine("//autogen " + DateTime.Now.ToString("z"));
-                sw2.WriteLine("namespace OpenTK.Graphics.ES30.Ex{");
+                sw2.WriteLine("//autogen " + DateTime.Now.ToString("u"));
+                sw2.WriteLine("namespace OpenTK.Graphics.ES30{");
                 sw2.WriteLine(" using System;");
                 sw2.WriteLine(" using System.Text;");
                 sw2.WriteLine(" using System.Runtime.InteropServices; ");
@@ -320,67 +326,80 @@ namespace Bind
         {
 
             using (MemoryStream ms = new MemoryStream())
-            using (StreamWriter ww = new StreamWriter(ms))
+            using (StreamWriter w = new StreamWriter(ms))
             {
-                ww.WriteLine("//autogen " + DateTime.Now.ToString("z"));
-                ww.WriteLine("namespace OpenTK.Graphics.ES30.Ex{");
-                ww.WriteLine(" using System;");
-                ww.WriteLine(" using System.Text;");
-                ww.WriteLine(" using System.Runtime.InteropServices; ");
+                w.WriteLine("//autogen " + DateTime.Now.ToString("u"));
+                w.WriteLine("namespace OpenTK.Graphics.ES30{");
+                w.WriteLine(" using System;");
+                w.WriteLine(" using System.Text;");
+                w.WriteLine(" using System.Runtime.InteropServices; ");
                 //my experiment
 
                 //create delegate slot
-                ww.WriteLine();
-                ww.WriteLine("[System.Security.SuppressUnmanagedCodeSecurity()] //apply to all members");
-                ww.WriteLine($"static class {CodeGenSetting.GLDelegateClass} {{");
+                w.WriteLine();
+                w.WriteLine("[System.Security.SuppressUnmanagedCodeSecurity()] //apply to all members");
+                w.WriteLine($"static class {CodeGenSetting.GLDelegateClass} {{");
 
                 int marker_count = 0;
                 for (int i = 0; i < outputFuncs.Count; ++i)
                 {
                     Delegate d = outputFuncs[i];
-                    ww.WriteLine();
+                    w.WriteLine();
 
-                    ww.WriteLine("//m* " + (++marker_count));
-
+                    ++marker_count;
+                    w.WriteLine("//m* " + marker_count);
 #if DEBUG
-                    if (marker_count == 168)
+                    if (marker_count == 127)
                     {
 
                     }
 #endif
-                    ww.WriteLine();
-                    ww.WriteLine("[UnmanagedFunctionPointer(CallingConvention.Cdecl)]");
-                    ww.WriteLine($"public {GetDeclarationString2(d, true)};");
+                    w.WriteLine();
+                    w.WriteLine("[UnmanagedFunctionPointer(CallingConvention.Winapi, CharSet = CharSet.Ansi)]");
+                    w.WriteLine($"public {GetDeclarationString2(d, true)};");
 
-                    ww.WriteLine($"public static {d.Name}  {Settings.FunctionPrefix + d.Name};");
-                    ww.WriteLine();
+                    w.WriteLine($"public static {d.Name}  {Settings.FunctionPrefix + d.Name};");
+                    w.WriteLine();
                 }
-               
-                ww.WriteLine("}"); //close class GLDelegateClass
+
+                w.WriteLine("}"); //close class GLDelegateClass
                 //------------
 
-                //GlDelInitClass
-                ww.WriteLine("static class GLDelInit{");
-                ww.WriteLine("static void AssignDelegate<T>(out T del, string funcName){del = (T)(object)Marshal.GetDelegateForFunctionPointer(PlatformAddressPortal.GetAddressDelegate(funcName), typeof(T));}");
-                ww.WriteLine("public static void LoadAll(){");
+                //GLDelInit
+                w.WriteLine("static class GLDelInit{");
+                w.WriteLine("static void AssignDelegate<T>(out T del, string funcName){");
+                /**
+                 *      IntPtr funcPtr = PlatformAddressPortal.GetAddressDelegate(funcName);
+                        del = (funcPtr == IntPtr.Zero) ?
+                        default(T) :
+                        (T)(object)(Marshal.GetDelegateForFunctionPointer(funcPtr, typeof(T)));
+                  */
+
+                w.WriteLine("IntPtr funcPtr = PlatformAddressPortal.GetAddressDelegate(funcName);");
+                w.WriteLine(" del = (funcPtr == IntPtr.Zero) ? default(T) :  (T)(object)(Marshal.GetDelegateForFunctionPointer(funcPtr, typeof(T)));");
+                w.WriteLine("}");
+
+                w.WriteLine("public static void LoadAll(){");
                 for (int i = 0; i < outputFuncs.Count; ++i)
                 {
                     Delegate d = outputFuncs[i];
-                    ww.WriteLine("AssignDelegate(out " + CodeGenSetting.GLDelegateClass + "." + Settings.FunctionPrefix + d.Name + ",\"" + Settings.FunctionPrefix + d.Name + "\");");
+                    w.WriteLine("AssignDelegate(out " + CodeGenSetting.GLDelegateClass + "." + Settings.FunctionPrefix + d.Name + ",\"" + Settings.FunctionPrefix + d.Name + "\");");
                 }
-                ww.WriteLine("}"); //close LoadAll()
+                w.WriteLine("}"); //close LoadAll()
                 // 
 
 
 
 
-                ww.WriteLine("}"); //close class
+                w.WriteLine("}"); //close class
                 //------------
-                ww.WriteLine("}"); //namespace
-                ww.Flush();
+                w.WriteLine("}"); //namespace
+                w.Flush();
                 //
                 string api1 = Encoding.UTF8.GetString(ms.ToArray());
-                File.WriteAllText("d:\\WImageTest\\gles30.cs", api1);
+
+                string curDir = System.IO.Directory.GetCurrentDirectory();
+                File.WriteAllText(@"src\MiniOpenTK\Graphics\ES30\ES30Delegate.cs", api1);
                 // 
             }
         }
@@ -399,7 +418,7 @@ namespace Bind
         {
             if ((Settings.Compatibility & Settings.Legacy.NoDocumentation) == 0)
             {
-                //WriteDocumentation(sw, f);
+                WriteDocumentation(sw, f);
             }
             WriteMethod2(sw, f, enums);
             sw.WriteLine();
@@ -434,10 +453,11 @@ namespace Bind
             sw.WriteLine("[AutoGenerated(Category = \"{0}\", Version = \"{1}\", EntryPoint = \"{2}\")]",
                 f.Category, f.Version, Settings.FunctionPrefix + f.WrappedDelegate.EntryPoint);
 
-            if (!f.CLSCompliant)
-            {
-                sw.WriteLine("[CLSCompliant(false)]");
-            }
+            //we may not need to gen [CLSCompliant(false)] if our asm dose not require it
+            //if (!f.CLSCompliant)
+            //{
+            //    sw.WriteLine("[CLSCompliant(false)]");
+            //}
 
             sw.WriteLine($"public static { GetDeclarationString(f, Settings.Compatibility)}");
             //body

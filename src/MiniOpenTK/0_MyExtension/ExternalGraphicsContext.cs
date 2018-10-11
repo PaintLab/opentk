@@ -48,8 +48,7 @@ namespace OpenTK.Platform.External
         {
             hasLoadGLFuncs = true;
             new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
-            new OpenTK.Graphics.ES30.GL().LoadEntryPoints();
-            new OpenTK.Graphics.ES30.Ex.GL().LoadEntryPoints();
+            new OpenTK.Graphics.ES30.GL().LoadEntryPoints(); 
         }
     }
 }

@@ -41,7 +41,9 @@ namespace OpenTK.Platform.Windows
         private WinRawInput rawinput_driver; // For keyboard and mouse input
 
         internal static IntPtr OpenGLHandle { get; private set; }
-        private const string OpenGLName = "OPENGL32.DLL";
+
+        //private const string OpenGLName = "OPENGL32.DLL";
+        private const string OpenGLName = "libGLESv2.dll";
 
         public WinFactory()
         {

@@ -137,6 +137,8 @@ namespace OpenTK.Graphics
                                                           | GraphicsContextFlags.AngleD3D9
                                                           | GraphicsContextFlags.AngleD3D11
                                                           | GraphicsContextFlags.AngleOpenGL;
+
+                flags = useAngleFlag;
                 var useAngle = false;
                 if ((flags & useAngleFlag) != 0)
                 {
