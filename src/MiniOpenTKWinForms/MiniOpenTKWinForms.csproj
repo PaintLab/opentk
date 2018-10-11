@@ -105,9 +105,9 @@
     <None Include="UserGLControl\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Builds\NETSTD2\MiniOpenTKCore1\MiniOpenTKCore1.csproj">
+    <ProjectReference Include="..\Builds\NETSTD2\MiniOpenTKLevel1\MiniOpenTKLevel1.csproj">
       <Project>{aec72fbf-5286-4ab9-a18a-26ced9499de2}</Project>
-      <Name>MiniOpenTKCore1</Name>
+      <Name>MiniOpenTKLevel1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenTK\MiniOpenTK_Core2.projitems" Label="Shared" />

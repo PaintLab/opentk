@@ -7,8 +7,8 @@
     <ProjectGuid>{D49440C2-785F-4BAC-9F2E-FC93603FA647}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiniOpenTKCore1</RootNamespace>
-    <AssemblyName>MiniOpenTKCore1</AssemblyName>
+    <RootNamespace>MiniOpenTKLevel1</RootNamespace>
+    <AssemblyName>MiniOpenTKLevel1</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
