@@ -2,7 +2,7 @@
 
 namespace OpenTK.Platform.Dummy
 {
-    internal class DummyWindowInfo : IWindowInfo
+    public class DummyWindowInfo : IWindowInfo
     {
         public void Dispose()
         {

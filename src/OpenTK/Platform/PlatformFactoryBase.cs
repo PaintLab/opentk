@@ -39,7 +39,7 @@ namespace OpenTK.Platform
     /// for all platform backends. IPlatformFactory implementations
     /// should inherit from this class.
     /// </summary>
-    internal abstract class PlatformFactoryBase : IPlatformFactory
+    internal abstract class PlatformFactoryBase : IPlatformFactory2
     {
         private static readonly object sync = new object();
         private readonly List<IDisposable> Resources = new List<IDisposable>();
@@ -49,8 +49,13 @@ namespace OpenTK.Platform
         public PlatformFactoryBase()
         {
         }
+        public abstract INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
+        INativeWindow IPlatformFactory.CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        {
+            return CreateNativeWindow(x, y, width, height, title, mode, options, device);
+        }
 
-        public abstract INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
+
 
         public abstract IDisplayDeviceDriver CreateDisplayDeviceDriver();
 

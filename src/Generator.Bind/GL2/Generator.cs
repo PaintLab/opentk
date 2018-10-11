@@ -127,5 +127,11 @@ namespace Bind.GL2
             Wrappers = func_processor.Process(enum_processor, doc_processor,
                 Delegates, Enums, Profile, Version);
         }
+
+
+         
+        public bool EnableMyEsGen { get; set; }
+
+
     }
 }

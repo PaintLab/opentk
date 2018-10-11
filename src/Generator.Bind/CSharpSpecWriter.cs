@@ -37,16 +37,24 @@ namespace Bind
     using Enum = Bind.Structures.Enum;
     using Type = Bind.Structures.Type;
 
-    internal sealed class CSharpSpecWriter
+    internal sealed partial class CSharpSpecWriter
     {
         private IBind Generator { get; set; }
         private Settings Settings { get { return Generator.Settings; } }
 
+
         public void WriteBindings(IBind generator)
         {
+            //1.
             Generator = generator;
+
+            //2.
+            InitBindings();  //my Extension
+
+            //3.
             WriteBindings(generator.Delegates, generator.Wrappers, generator.Enums);
         }
+
 
         private static void ConsoleRewrite(string text)
         {
@@ -75,6 +83,8 @@ namespace Bind
             // Enums
             using (BindStreamWriter sw = new BindStreamWriter(temp_enums_file))
             {
+                sw.WriteLine("//autogen " + DateTime.Now.ToString("u")); //my extension
+
                 WriteLicense(sw);
 
                 sw.WriteLine("using System;");
@@ -149,6 +159,9 @@ namespace Bind
 
             File.Move(temp_enums_file, output_enums);
             File.Move(temp_wrappers_file, output_wrappers);
+
+            //COPY enum
+            _myESGen?.CopyEnums(output_enums);
         }
 
         private void WriteWrappers(BindStreamWriter sw, FunctionCollection wrappers,
@@ -212,6 +225,9 @@ namespace Bind
             sw.WriteLine("}");
             sw.WriteLine();
 
+
+            BindStreamWriter sw2 = _myESGen?.BeginWriteES(); //my Extension
+
             int current_wrapper = 0;
             foreach (string key in wrappers.Keys)
             {
@@ -220,48 +236,70 @@ namespace Bind
                     if (!Char.IsDigit(key[0]))
                     {
                         sw.WriteLine("public static partial class {0}", key);
+                        sw2?.WriteLine("public static partial class {0}", key);
                     }
                     else
                     {
                         // Identifiers cannot start with a number:
                         sw.WriteLine("public static partial class {0}{1}", Settings.ConstantPrefix, key);
+                        sw2?.WriteLine("public static partial class {0}{1}", Settings.ConstantPrefix, key);
                     }
                     sw.WriteLine("{");
                     sw.Indent();
+                    //
+                    sw2?.WriteLine("{"); //my Extension
+                    sw2?.Indent(); //my Extension
                 }
 
                 wrappers[key].Sort();
+
                 foreach (Function f in wrappers[key])
                 {
                     WriteWrapper(sw, f, enums);
+                    //
+                    _myESGen?.WriteWrapper2(f, enums); //my Extension
+                    //
                     current_wrapper++;
                 }
-
                 if (((Settings.Compatibility & Settings.Legacy.NoSeparateFunctionNamespaces) == Settings.Legacy.None) && key != "Core")
                 {
                     sw.Unindent();
                     sw.WriteLine("}");
                     sw.WriteLine();
+                    //
+                    sw2.Unindent();  //my Extension
+                    sw2.WriteLine("}"); //my Extension
+                    sw2.WriteLine(); //my Extension
                 }
             }
 
+            _myESGen?.EndWriteES();
+
+
             // Emit native signatures.
             // These are required by the patcher.
+
             int current_signature = 0;
-            foreach (var d in wrappers.Values.SelectMany(e => e).Select(w => w.WrappedDelegate).Distinct())
+            List<Delegate> outputFuncs = new List<Delegate>();
+            foreach (Delegate d in wrappers.Values.SelectMany(e => e).Select(w => w.WrappedDelegate).Distinct())
             {
                 sw.WriteLine("[Slot({0})]", d.Slot);
                 sw.WriteLine("[DllImport(Library, ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]");
                 sw.WriteLine("private static extern {0};", GetDeclarationString(d, false));
+                outputFuncs.Add(d);
                 current_signature++;
             }
+
+            //---------
+            //my Extension 
+            _myESGen?.WriteDelegatesAndDelegateSlots(outputFuncs);
+            //--------- 
 
             sw.Unindent();
             sw.WriteLine("}");
 
             Console.WriteLine("Wrote {0} wrappers for {1} signatures", current_wrapper, current_signature);
         }
-
         private void WriteWrapper(BindStreamWriter sw, Function f, EnumCollection enums)
         {
             if ((Settings.Compatibility & Settings.Legacy.NoDocumentation) == 0)
@@ -271,7 +309,6 @@ namespace Bind
             WriteMethod(sw, f, enums);
             sw.WriteLine();
         }
-
         private void WriteMethod(BindStreamWriter sw, Function f, EnumCollection enums)
         {
             if (!String.IsNullOrEmpty(f.Obsolete))
@@ -417,7 +454,7 @@ namespace Bind
 
         private void WriteConstants(BindStreamWriter sw, IEnumerable<Constant> constants)
         {
-             // Make sure everything is sorted. This will avoid random changes between
+            // Make sure everything is sorted. This will avoid random changes between
             // consecutive runs of the program.
             constants = constants.OrderBy(c => c);
 
@@ -606,12 +643,27 @@ namespace Bind
 
             return sb.ToString();
         }
+        private string GetDeclarationString2(Delegate d, bool is_delegate)
+        {
+            StringBuilder sb = new StringBuilder();
 
+            sb.Append(d.Unsafe ? "unsafe " : "");
+            if (is_delegate)
+            {
+                sb.Append("delegate ");
+            }
+            sb.Append(GetDeclarationString(d.ReturnType, Settings.Legacy.ConstIntEnums));
+            sb.Append(" ");
+            sb.Append(d.Name);
+            sb.Append(GetDeclarationString(d.Parameters, Settings.Legacy.ConstIntEnums));
+
+            return sb.ToString();
+        }
         private string GetDeclarationString(Enum e)
         {
             StringBuilder sb = new StringBuilder();
             List<Constant> constants = new List<Constant>(e.ConstantCollection.Values);
-            constants.Sort(delegate(Constant c1, Constant c2)
+            constants.Sort(delegate (Constant c1, Constant c2)
             {
                 int ret = String.Compare(c1.Value, c2.Value);
                 if (ret == 0)
@@ -659,10 +711,13 @@ namespace Bind
             }
             sb.Append(!String.IsNullOrEmpty(f.TrimmedName) ? f.TrimmedName : f.Name);
 
+
+
+
             if (f.Parameters.HasGenericParameters)
             {
                 sb.Append("<");
-                foreach (Parameter p in f.Parameters.Where(p  => p.Generic))
+                foreach (Parameter p in f.Parameters.Where(p => p.Generic))
                 {
                     sb.Append(p.CurrentType);
                     sb.Append(", ");
@@ -756,7 +811,19 @@ namespace Bind
             }
             else
             {
-                sb.Append(GetDeclarationString(p as Type, settings));
+                if ((p.WrapperType & WrapperTypes.StringArrayParameter) == WrapperTypes.StringArrayParameter)
+                {
+                    sb.Append("string[]");
+                }
+                else if (p.Flow == FlowDirection.In && (p.WrapperType & WrapperTypes.StringParameter) == WrapperTypes.StringParameter)
+                {
+                    sb.Append("string");
+                }
+                else
+                {
+                    sb.Append(GetDeclarationString(p as Type, settings));
+                }
+
             }
             if (!String.IsNullOrEmpty(p.Name))
             {
@@ -792,6 +859,7 @@ namespace Bind
         private string GetDeclarationString(Type type, Settings.Legacy settings)
         {
             var t = type.QualifiedType;
+
             if ((settings & Settings.Legacy.ConstIntEnums) != 0)
             {
                 if (type.IsEnum)

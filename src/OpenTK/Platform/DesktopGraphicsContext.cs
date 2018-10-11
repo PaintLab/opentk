@@ -29,21 +29,22 @@ using OpenTK.Graphics;
 namespace OpenTK.Platform
 {
     // Provides the foundation for all desktop IGraphicsContext implementations.
-    internal abstract class DesktopGraphicsContext : GraphicsContextBase
+    public abstract class DesktopGraphicsContext : GraphicsContextBase
     {
         public override void LoadAll()
         {
             Stopwatch time = Stopwatch.StartNew();
 
-            #if OPENGL
+#if OPENGL
             new OpenTK.Graphics.OpenGL.GL().LoadEntryPoints();
             new OpenTK.Graphics.OpenGL4.GL().LoadEntryPoints();
-            #endif
-            #if OPENGLES
-            new OpenTK.Graphics.ES11.GL().LoadEntryPoints();
-            new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
+#endif
+#if OPENGLES
+            //new OpenTK.Graphics.ES11.GL().LoadEntryPoints();
+            //new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
             new OpenTK.Graphics.ES30.GL().LoadEntryPoints();
-            #endif
+            
+#endif
 
             Debug.Print("Bindings loaded in {0} ms.", time.Elapsed.TotalMilliseconds);
         }

@@ -20,10 +20,10 @@ namespace OpenTK.Graphics
         // Disable BeforeFieldInit
         static GraphicsMode() { }
 
-        internal GraphicsMode(GraphicsMode mode)
+        public GraphicsMode(GraphicsMode mode)
             : this(mode.ColorFormat, mode.Depth, mode.Stencil, mode.Samples, mode.AccumulatorFormat, mode.Buffers, mode.Stereo) { }
 
-        internal GraphicsMode(IntPtr? index, ColorFormat color, int depth, int stencil, int samples, ColorFormat accum,
+        public GraphicsMode(IntPtr? index, ColorFormat color, int depth, int stencil, int samples, ColorFormat accum,
                               int buffers, bool stereo)
         {
             if (depth < 0)

@@ -97,6 +97,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_MyExtension\MyExt.cs" />
     <Compile Include="Math\Box2d.cs" />
     <Compile Include="DisplayDevice.cs">
       <SubType>Code</SubType>
@@ -137,6 +138,7 @@
     <Compile Include="Platform\Egl\EglUnixContext.cs" />
     <Compile Include="Platform\Egl\EglWinContext.cs" />
     <Compile Include="Platform\Egl\EglAnglePlatformFactory.cs" />
+    <Compile Include="Platform\IPlatformFactory_Input.cs" />
     <Compile Include="Platform\MacOS\Cocoa\NSAutoreleasePool.cs" />
     <Compile Include="Platform\MappedGamePadDriver.cs" />
     <Compile Include="Platform\Windows\Bindings\HidProtocol.cs" />

@@ -39,7 +39,7 @@ namespace OpenTK.Platform.Windows
 
         private IntPtr OldWndProc;
 
-        protected INativeWindow Native { get; private set; }
+        protected INativeWindow2 Native { get; private set; }
 
         protected WinWindowInfo Parent { get { return (WinWindowInfo)Native.WindowInfo; } }
 
@@ -57,13 +57,13 @@ namespace OpenTK.Platform.Windows
             InputReady.WaitOne();
         }
 
-        private INativeWindow ConstructMessageWindow()
+        private INativeWindow2 ConstructMessageWindow()
         {
             Debug.WriteLine("Initializing input driver.");
             Debug.Indent();
 
             // Create a new message-only window to retrieve WM_INPUT messages.
-            INativeWindow native = new NativeWindow();
+            INativeWindow2 native = new NativeWindow();
             native.ProcessEvents();
             WinWindowInfo parent = native.WindowInfo as WinWindowInfo;
             Functions.SetParent(parent.Handle, Constants.MESSAGE_ONLY);

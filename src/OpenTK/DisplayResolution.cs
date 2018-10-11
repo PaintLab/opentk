@@ -16,10 +16,10 @@ namespace OpenTK
     {
         private Rectangle bounds;
 
-        internal DisplayResolution() { }
+        public DisplayResolution() { }
 
         // Creates a new DisplayResolution object for the primary DisplayDevice.
-        internal DisplayResolution(int x, int y, int width, int height, int bitsPerPixel, float refreshRate)
+        public DisplayResolution(int x, int y, int width, int height, int bitsPerPixel, float refreshRate)
         {
             // Refresh rate may be zero, since this information may not be available on some platforms.
             if (width <= 0)
@@ -111,9 +111,9 @@ namespace OpenTK
         /// <returns>A System.String representing this DisplayResolution.</returns>
         public override string ToString()
         {
-            #pragma warning disable 612,618
+#pragma warning disable 612, 618
             return String.Format("{0}x{1}@{2}Hz", Bounds, BitsPerPixel, RefreshRate);
-            #pragma warning restore 612,618
+#pragma warning restore 612, 618
         }
 
         /// <summary>Determines whether the specified resolutions are equal.</summary>
@@ -142,9 +142,9 @@ namespace OpenTK
         /// <returns>A System.Int32 that may serve as a hash code for this resolution.</returns>
         public override int GetHashCode()
         {
-            #pragma warning disable 612,618
+#pragma warning disable 612, 618
             return Bounds.GetHashCode() ^ BitsPerPixel ^ RefreshRate.GetHashCode();
-            #pragma warning restore 612,618
+#pragma warning restore 612, 618
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace OpenTK
         /// <param name="left">The first instance.</param>
         /// <param name="right">The second instance.</param>
         /// <returns>True, if left equals right; false otherwise.</returns>
-        public static bool operator== (DisplayResolution left, DisplayResolution right)
+        public static bool operator ==(DisplayResolution left, DisplayResolution right)
         {
             if (((object)left) == null && ((object)right) == null)
             {

@@ -32,7 +32,7 @@ using OpenTK.Platform;
 namespace OpenTK.Graphics
 {
     // Provides the foundation for all IGraphicsContext implementations.
-    internal abstract class GraphicsContextBase : IGraphicsContext, IGraphicsContextInternal, IEquatable<IGraphicsContextInternal>
+    public abstract class GraphicsContextBase : IGraphicsContext, IGraphicsContextInternal, IEquatable<IGraphicsContextInternal>
     {
         protected ContextHandle Handle;
         protected GraphicsMode Mode;
@@ -97,14 +97,14 @@ namespace OpenTK.Graphics
 
         protected abstract void Dispose(bool disposing);
 
-        #if DEBUG
+#if DEBUG
         ~GraphicsContextBase()
         {
             Dispose(false);
             Debug.Print("[Warning] {0}:{1} leaked. Did you forget to call Dispose()?",
                 GetType().FullName, Handle);
         }
-        #endif
+#endif
 
         public bool Equals(IGraphicsContextInternal other)
         {
