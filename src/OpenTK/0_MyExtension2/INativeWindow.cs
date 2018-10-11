@@ -28,11 +28,9 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
-using OpenTK.Graphics;
 namespace OpenTK.Platform
 {
-    public interface INativeWindow2 : INativeWindow
+    public interface INativeWindow : IDisposable
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Drawing.Icon"/> of the window.

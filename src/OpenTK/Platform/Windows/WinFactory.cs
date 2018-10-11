@@ -80,7 +80,7 @@ namespace OpenTK.Platform.Windows
             Debug.WriteLine(String.Format("Loaded opengl32.dll: {0}", OpenGLHandle));
         }
 
-        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
         {
             return new WinGLNative(x, y, width, height, title, options, device);
         }

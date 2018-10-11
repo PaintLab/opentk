@@ -9,7 +9,7 @@
     <Import_RootNamespace>MiniOpenTK_Core2</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension2\INativeWindow2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension2\INativeWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension2\IPlatformFactory2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameWindow.cs" />

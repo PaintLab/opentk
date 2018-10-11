@@ -43,10 +43,10 @@ namespace OpenTK.Platform.Egl
             _platform_factory = platform_factory;
         }
 
-        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode,
+        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode,
             GameWindowFlags options, DisplayDevice device)
         {
-            return (INativeWindow2)_platform_factory.CreateNativeWindow(x, y, width, height, title,
+            return (INativeWindow)_platform_factory.CreateNativeWindow(x, y, width, height, title,
                 mode, options, device);
         }
 
