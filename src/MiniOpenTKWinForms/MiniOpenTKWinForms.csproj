@@ -25,13 +25,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;OPENGLES, SDL2,WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -104,9 +105,9 @@
     <None Include="UserGLControl\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MiniOpenTK\MiniOpenTK.csproj">
-      <Project>{73772a2f-7357-49ca-9fd3-7d8d448f9424}</Project>
-      <Name>MiniOpenTK</Name>
+    <ProjectReference Include="..\Builds\NETSTD2\MiniOpenTKCore1\MiniOpenTKCore1.csproj">
+      <Project>{aec72fbf-5286-4ab9-a18a-26ced9499de2}</Project>
+      <Name>MiniOpenTKCore1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\OpenTK\MiniOpenTK_Core2.projitems" Label="Shared" />

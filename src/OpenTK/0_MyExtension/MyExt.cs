@@ -23,15 +23,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
- 
+
 
 namespace OpenTK.Graphics
 {
-    
-
     public static class PlatformAddressPortal
     {
-        //Platform.Utilities.CreateGetAddress()
         public static GraphicsContext.GetAddressDelegate GetAddressDelegate;
     }
+
+
 }
+
+
+#if !MINIMAL
+namespace OpenTK
+{
+    class XmlIgnoreAttribute : System.Attribute { }
+}
+#endif
