@@ -24,11 +24,7 @@
     <Compile Include="..\..\src\OpenTK\FrameEventArgs.cs" Link="FrameEventArgs.cs" />
     <Compile Include="..\..\src\OpenTK\GameWindowFlags.cs" Link="Platform\GameWindowFlags.cs" />
     <Compile Include="..\..\src\OpenTK\Graphics\Color4.cs" Link="Graphics\Color4.cs" />
-    <Compile Include="..\..\src\OpenTK\Graphics\ColorFormat.cs" Link="Graphics\ColorFormat.cs" />
-    <Compile Include="..\..\src\OpenTK\Graphics\ES20\ErrorHelper.cs" Link="Graphics\ES20\ErrorHelper.cs" />
-    <Compile Include="..\..\src\OpenTK\Graphics\ES20\ES20.cs" Link="Graphics\ES20\ES20.cs" />
-    <Compile Include="..\..\src\OpenTK\Graphics\ES20\ES20Enums.cs" Link="Graphics\ES20\ES20Enums.cs" />
-    <Compile Include="..\..\src\OpenTK\Graphics\ES20\Helper.cs" Link="Graphics\ES20\Helper.cs" />  
+    <Compile Include="..\..\src\OpenTK\Graphics\ColorFormat.cs" Link="Graphics\ColorFormat.cs" />  
     <Compile Include="..\..\src\OpenTK\Graphics\GraphicsBindingsBase.cs" Link="Graphics\GraphicsBindingsBase.cs" />
     <Compile Include="..\..\src\OpenTK\Graphics\GraphicsContext.cs" Link="Graphics\GraphicsContext.cs" />
     <Compile Include="..\..\src\OpenTK\Graphics\GraphicsContextBase.cs" Link="Graphics\GraphicsContextBase.cs" />
@@ -97,7 +93,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Graphics\ES20\" />
     <Folder Include="Math\" />
     <Folder Include="Platform\Egl\" />
   </ItemGroup>
