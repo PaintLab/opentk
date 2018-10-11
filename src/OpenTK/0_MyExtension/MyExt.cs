@@ -30,14 +30,15 @@ namespace OpenTK.Graphics
     public static class PlatformAddressPortal
     {
         public static GraphicsContext.GetAddressDelegate GetAddressDelegate;
-    } 
+    }
+
+
 }
 
-#if MINIMAL
-namespace System.Xml.Serialization
+
+#if !MINIMAL
+namespace OpenTK
 {
-    class dummy { }
+    class XmlIgnoreAttribute : System.Attribute { }
 }
 #endif
-
- 
