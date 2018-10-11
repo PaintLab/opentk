@@ -92,6 +92,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_MyExtension\MyEsGenerator.cs" />
     <Compile Include="CSharpSpecWriter.cs" />
     <Compile Include="FuncProcessor.cs" />
     <Compile Include="GL2\GL4Generator.cs" />

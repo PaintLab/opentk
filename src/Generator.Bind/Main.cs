@@ -143,7 +143,7 @@ namespace Bind
                 return;
             }
 
-            mode = GeneratorMode.ES30;
+            mode = GeneratorMode.ES30; //my extension
 
             try
             {
@@ -176,17 +176,17 @@ namespace Bind
                     case GeneratorMode.ES11:
                         Generators.Add(new ESGenerator(Settings));
                         break;
-
+                    //---------
                     case GeneratorMode.ES20:
-                        Generators.Add(new ES2Generator(Settings));
+                        Generators.Add(new ES2Generator(Settings) { EnableMyEsGen = true });
                         break;
 
                     case GeneratorMode.ES30:
-                        Generators.Add(new ES3Generator(Settings));
+                        Generators.Add(new ES3Generator(Settings) { EnableMyEsGen = true });
                         break;
 
                     case GeneratorMode.ES31:
-                        Generators.Add(new ES31Generator(Settings));
+                        Generators.Add(new ES31Generator(Settings) { EnableMyEsGen = true });
                         break;
 
                     case GeneratorMode.CL10:
@@ -198,7 +198,7 @@ namespace Bind
                         return;
                 }
 
-                foreach (var generator in Generators)
+                foreach (IBind generator in Generators)
                 {
                     long ticks = DateTime.Now.Ticks;
 

@@ -17,6 +17,9 @@ namespace Bind
         IDictionary<string, string> GLTypes { get; }
         IDictionary<string, string> CSTypes { get; }
 
-        void Process();
+        void Process(); 
     }
+
+
+     
 }
