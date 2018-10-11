@@ -70,6 +70,8 @@ namespace Bind.Structures
             private set;
         }
 
+        public string TempOutStringName { get; set; }
+        public string ExplicitCastType { get; set; }
         /// <summary>
         /// Gets the name of the parameter. If the name matches a keyword of the current language,
         /// then it is escaped with <see cref="Settings.KeywordEscapeCharacter"/>.
@@ -315,15 +317,30 @@ namespace Bind.Structures
 
                 foreach (Parameter p in this)
                 {
+
+                    //
                     if (p.Unchecked)
                         sb.Append("unchecked((" + p.QualifiedType + ")");
 
                     if (!p.Generic && p.CurrentType != "object")
                     {
-                        if (p.CurrentType.ToLower().Contains("string"))
+                        if (p.ExplicitCastType != null)
                         {
-                            sb.Append(String.Format("({0}{1})",
+                            sb.Append(String.Format("({0})", p.ExplicitCastType));
+                        }
+                        else if (p.CurrentType.ToLower().Contains("string"))
+                        {
+                            if (p.TempOutStringName != null)
+                            {
+                                sb.Append(String.Format("({0}{1})",
+                                  "IntPtr", (p.Array > 0) ? "[]" : ""));
+                            }
+                            else
+                            {
+                                sb.Append(String.Format("({0}{1})",
                                 p.QualifiedType, (p.Array > 0) ? "[]" : ""));
+                            }
+
                         }
                         else if (p.CurrentType.ToLower() == "int")
                         {
@@ -340,14 +357,9 @@ namespace Bind.Structures
 
                                 sb.Append("(");
                                 //sb.Append(p.QualifiedType);
-                                if (targetP.IsEnum)
-                                {
-                                    sb.Append("int");
-                                }
-                                else
-                                {
-                                    sb.Append(targetP.QualifiedType);
-                                }
+
+                                sb.Append(targetP.QualifiedType);
+
 
                                 for (int i = 0; i < p.IndirectionLevel; i++)
                                     sb.Append("*");
@@ -362,7 +374,14 @@ namespace Bind.Structures
                         }
                     }
 
-                    sb.Append(p.Name);
+                    if (p.TempOutStringName != null)
+                    {
+                        sb.Append(p.TempOutStringName);
+                    }
+                    else
+                    {
+                        sb.Append(p.Name);
+                    }
 
                     if (p.Unchecked)
                         sb.Append(")");

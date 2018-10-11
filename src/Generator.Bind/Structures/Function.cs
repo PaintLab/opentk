@@ -84,8 +84,7 @@ namespace Bind.Structures
         public string CallString(string wrapDelEntryPoint, Delegate forDelegate)
         {
             StringBuilder sb = new StringBuilder();
-
-            sb.Append("MyDelSlots.");
+            sb.Append(CodeGenSetting.GLDelegateClass + ".");
             sb.Append(wrapDelEntryPoint);
             sb.Append(Parameters.CallString(forDelegate));
 
