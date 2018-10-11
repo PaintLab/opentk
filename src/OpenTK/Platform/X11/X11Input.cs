@@ -34,7 +34,7 @@ namespace OpenTK.Platform.X11
     {
         private readonly X11Mouse mouse = new X11Mouse();
         private readonly X11Keyboard keyboard = new X11Keyboard();
-        private readonly Linux.LinuxJoystick joystick = new Linux.LinuxJoystick();
+        private readonly OpenTK.Platform.Linux.LinuxJoystick joystick = new Linux.LinuxJoystick();
 
         internal X11Input()
         {

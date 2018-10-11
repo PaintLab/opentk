@@ -33,9 +33,9 @@ namespace OpenTK.Graphics
     /// </summary>
     public abstract class GraphicsBindingsBase : BindingsBase
     {
-        internal IntPtr[] _EntryPointsInstance;
-        internal byte[] _EntryPointNamesInstance;
-        internal int[] _EntryPointNameOffsetsInstance;
+        protected IntPtr[] _EntryPointsInstance;
+        protected byte[] _EntryPointNamesInstance;
+        protected int[] _EntryPointNameOffsetsInstance;
 
         /// <summary>
         /// Retrieves an unmanaged function pointer to the specified function.
@@ -66,7 +66,7 @@ namespace OpenTK.Graphics
         // Note: we prefer IGraphicsContextInternal.GetAddress over
         // this.GetAddress to improve loading performance (less
         // validation necessary.)
-        internal override void LoadEntryPoints()
+        public override void LoadEntryPoints()
         {
             Debug.Print("Loading entry points for {0}", GetType().FullName);
 

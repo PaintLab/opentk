@@ -32,10 +32,13 @@ using OpenTK.Platform;
 
 namespace OpenTK
 {
+    public interface INativeWindow : IDisposable
+    {
+    }
     /// <summary>
     /// Defines the interface for a native window.
     /// </summary>
-    public interface INativeWindow : IDisposable
+    public interface INativeWindow2 : INativeWindow, IDisposable
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Drawing.Icon"/> of the window.
@@ -135,10 +138,10 @@ namespace OpenTK
         /// </summary>
         bool CursorVisible { get; set; }
 
-//        /// <summary>
-//        /// Gets or sets a value, indicating whether the mouse cursor is confined inside the window size.
-//        /// </summary>
-//        bool CursorGrabbed { get; set; }
+        //        /// <summary>
+        //        /// Gets or sets a value, indicating whether the mouse cursor is confined inside the window size.
+        //        /// </summary>
+        //        bool CursorGrabbed { get; set; }
 
         /// <summary>
         /// Closes this window.

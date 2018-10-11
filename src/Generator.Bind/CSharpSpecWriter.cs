@@ -37,6 +37,11 @@ namespace Bind
     using Enum = Bind.Structures.Enum;
     using Type = Bind.Structures.Type;
 
+    static class CodeGenSetting
+    {
+        public const string GLDelegateClass = "Delegates";
+    }
+
     internal sealed class CSharpSpecWriter
     {
         private IBind Generator { get; set; }
@@ -75,6 +80,8 @@ namespace Bind
             // Enums
             using (BindStreamWriter sw = new BindStreamWriter(temp_enums_file))
             {
+                sw.WriteLine("//autogen " + DateTime.Now.ToString("u"));
+
                 WriteLicense(sw);
 
                 sw.WriteLine("using System;");
@@ -149,6 +156,9 @@ namespace Bind
 
             File.Move(temp_enums_file, output_enums);
             File.Move(temp_wrappers_file, output_wrappers);
+            //COPY
+            string es30EnumFile = @"src\MiniOpenTK\Graphics\ES30\ES30Enum.cs";
+            File.Copy(output_enums, es30EnumFile, true);
         }
 
         private void WriteWrappers(BindStreamWriter sw, FunctionCollection wrappers,
@@ -212,6 +222,23 @@ namespace Bind
             sw.WriteLine("}");
             sw.WriteLine();
 
+
+            string glClassFile = @"src\MiniOpenTK\Graphics\ES30\ES30.cs";
+            BindStreamWriter sw2 = new BindStreamWriter(glClassFile);
+            {
+                sw2.WriteLine("//autogen " + DateTime.Now.ToString("u"));
+                sw2.WriteLine("namespace OpenTK.Graphics.ES30{");
+                sw2.WriteLine(" using System;");
+                sw2.WriteLine(" using System.Text;");
+                sw2.WriteLine(" using System.Runtime.InteropServices; ");
+                //
+                sw2.WriteLine("  public partial class GL{");
+                sw2.WriteLine("  public void LoadAll(){");
+                sw2.WriteLine("     GLDelInit.LoadAll();");
+                sw2.WriteLine("}");
+            }
+
+
             int current_wrapper = 0;
             foreach (string key in wrappers.Keys)
             {
@@ -220,47 +247,163 @@ namespace Bind
                     if (!Char.IsDigit(key[0]))
                     {
                         sw.WriteLine("public static partial class {0}", key);
+                        sw2.WriteLine("public static partial class {0}", key);
                     }
                     else
                     {
                         // Identifiers cannot start with a number:
                         sw.WriteLine("public static partial class {0}{1}", Settings.ConstantPrefix, key);
+                        sw2.WriteLine("public static partial class {0}{1}", Settings.ConstantPrefix, key);
                     }
                     sw.WriteLine("{");
                     sw.Indent();
+                    //
+                    sw2.WriteLine("{");
+                    sw2.Indent();
                 }
 
                 wrappers[key].Sort();
+
                 foreach (Function f in wrappers[key])
                 {
                     WriteWrapper(sw, f, enums);
+                    WriteWrapper2(sw2, f, enums);
                     current_wrapper++;
                 }
+
+
 
                 if (((Settings.Compatibility & Settings.Legacy.NoSeparateFunctionNamespaces) == Settings.Legacy.None) && key != "Core")
                 {
                     sw.Unindent();
                     sw.WriteLine("}");
                     sw.WriteLine();
+                    //
+                    sw2.Unindent();
+                    sw2.WriteLine("}");
+                    sw2.WriteLine();
                 }
+            }
+
+            {
+                sw2.WriteLine("}"); //close GLES class
+                sw2.WriteLine("}"); //close namespace
+                sw2.Flush();
+                sw2.Close();
             }
 
             // Emit native signatures.
             // These are required by the patcher.
+
             int current_signature = 0;
-            foreach (var d in wrappers.Values.SelectMany(e => e).Select(w => w.WrappedDelegate).Distinct())
+
+
+
+
+            List<Delegate> outputFuncs = new List<Delegate>();
+            foreach (Delegate d in wrappers.Values.SelectMany(e => e).Select(w => w.WrappedDelegate).Distinct())
             {
                 sw.WriteLine("[Slot({0})]", d.Slot);
                 sw.WriteLine("[DllImport(Library, ExactSpelling = true, CallingConvention = CallingConvention.Winapi)]");
                 sw.WriteLine("private static extern {0};", GetDeclarationString(d, false));
+                outputFuncs.Add(d);
                 current_signature++;
             }
+
+            //---------
+            WriteDelegatesAndDelegateSlots(outputFuncs);
+            //---------
+
 
             sw.Unindent();
             sw.WriteLine("}");
 
             Console.WriteLine("Wrote {0} wrappers for {1} signatures", current_wrapper, current_signature);
         }
+
+        //my extension
+        void WriteDelegatesAndDelegateSlots(List<Delegate> outputFuncs)
+        {
+
+            using (MemoryStream ms = new MemoryStream())
+            using (StreamWriter w = new StreamWriter(ms))
+            {
+                w.WriteLine("//autogen " + DateTime.Now.ToString("u"));
+                w.WriteLine("namespace OpenTK.Graphics.ES30{");
+                w.WriteLine(" using System;");
+                w.WriteLine(" using System.Text;");
+                w.WriteLine(" using System.Runtime.InteropServices; ");
+                //my experiment
+
+                //create delegate slot
+                w.WriteLine();
+                w.WriteLine("[System.Security.SuppressUnmanagedCodeSecurity()] //apply to all members");
+                w.WriteLine($"static class {CodeGenSetting.GLDelegateClass} {{");
+
+                int marker_count = 0;
+                for (int i = 0; i < outputFuncs.Count; ++i)
+                {
+                    Delegate d = outputFuncs[i];
+                    w.WriteLine();
+
+                    ++marker_count;
+                    w.WriteLine("//m* " + marker_count);
+#if DEBUG
+                    //if (marker_count == 8)
+                    //{
+
+                    //}
+#endif
+                    w.WriteLine();
+                    w.WriteLine("[UnmanagedFunctionPointer(CallingConvention.Winapi, CharSet = CharSet.Ansi)]");
+                    w.WriteLine($"public {GetDeclarationString2(d, true)};");
+
+                    w.WriteLine($"public static {d.Name}  {Settings.FunctionPrefix + d.Name};");
+                    w.WriteLine();
+                }
+
+                w.WriteLine("}"); //close class GLDelegateClass
+                //------------
+
+                //GLDelInit
+                w.WriteLine("static class GLDelInit{");
+                w.WriteLine("static void AssignDelegate<T>(out T del, string funcName){");
+                /**
+                 *      IntPtr funcPtr = PlatformAddressPortal.GetAddressDelegate(funcName);
+                        del = (funcPtr == IntPtr.Zero) ?
+                        default(T) :
+                        (T)(object)(Marshal.GetDelegateForFunctionPointer(funcPtr, typeof(T)));
+                  */
+
+                w.WriteLine("IntPtr funcPtr = PlatformAddressPortal.GetAddressDelegate(funcName);");
+                w.WriteLine(" del = (funcPtr == IntPtr.Zero) ? default(T) :  (T)(object)(Marshal.GetDelegateForFunctionPointer(funcPtr, typeof(T)));");
+                w.WriteLine("}");
+
+                w.WriteLine("public static void LoadAll(){");
+                for (int i = 0; i < outputFuncs.Count; ++i)
+                {
+                    Delegate d = outputFuncs[i];
+                    w.WriteLine("AssignDelegate(out " + CodeGenSetting.GLDelegateClass + "." + Settings.FunctionPrefix + d.Name + ",\"" + Settings.FunctionPrefix + d.Name + "\");");
+                }
+                w.WriteLine("}"); //close LoadAll()
+                // 
+
+
+
+
+                w.WriteLine("}"); //close class
+                //------------
+                w.WriteLine("}"); //namespace
+                w.Flush();
+                //
+                string api1 = Encoding.UTF8.GetString(ms.ToArray());
+
+                string curDir = System.IO.Directory.GetCurrentDirectory();
+                File.WriteAllText(@"src\MiniOpenTK\Graphics\ES30\ES30Delegate.cs", api1);
+                // 
+            }
+        }
+
 
         private void WriteWrapper(BindStreamWriter sw, Function f, EnumCollection enums)
         {
@@ -271,7 +414,431 @@ namespace Bind
             WriteMethod(sw, f, enums);
             sw.WriteLine();
         }
+        private void WriteWrapper2(BindStreamWriter sw, Function f, EnumCollection enums)
+        {
+            if ((Settings.Compatibility & Settings.Legacy.NoDocumentation) == 0)
+            {
+                WriteDocumentation(sw, f);
+            }
+            WriteMethod2(sw, f, enums);
+            sw.WriteLine();
+        }
+        private void WriteMethod2(BindStreamWriter sw, Function f, EnumCollection enums)
+        {
 
+            if (!String.IsNullOrEmpty(f.Obsolete))
+            {
+                return; // TODO: add note that we 
+                //sw.WriteLine("[Obsolete(\"{0}\")]", f.Obsolete);
+            }
+            else if (f.Deprecated && Settings.IsEnabled(Settings.Legacy.AddDeprecationWarnings))
+            {
+                return; //
+                //sw.WriteLine("[Obsolete(\"Deprecated in OpenGL {0}\")]", f.DeprecatedVersion);
+            }
+
+
+            //--------------------------------------------------------------------------------------------
+
+#if DEBUG
+            _dbugWrite_Id++;
+            if (_dbugWrite_Id == 332)
+            {
+
+            }
+
+            sw.WriteLine("//x* " + _dbugWrite_Id);
+#endif
+
+            //we may not need this...
+            sw.WriteLine("//[AutoGenerated(Category = \"{0}\", Version = \"{1}\", EntryPoint = \"{2}\")]",
+                f.Category, f.Version, Settings.FunctionPrefix + f.WrappedDelegate.EntryPoint);
+
+            //we may not need to gen [CLSCompliant(false)] if our asm dose not require it
+            //if (!f.CLSCompliant)
+            //{
+            //    sw.WriteLine("[CLSCompliant(false)]");
+            //}
+
+            sw.WriteLine($"public static { GetDeclarationString(f, Settings.Compatibility)}");
+            //body
+            //-----
+            //sw.WriteLine("//hello!");
+            CreateBody(f, f.CLSCompliant, enums, Settings.FunctionPrefix, f.WrappedDelegate);
+            sw.WriteLine(f.Body.ToString());
+        }
+#if DEBUG
+        int _dbugWrite_Id;
+#endif
+
+        //-------------------------------------------------------------------
+        readonly List<string> handle_statements = new List<string>();
+        readonly List<string> handle_release_statements = new List<string>();
+        readonly List<string> fixed_statements = new List<string>();
+        readonly List<string> assign_statements = new List<string>();
+        readonly List<string> stringOutAlloc_statements = new List<string>();
+        readonly List<string> stringOut_set_statements = new List<string>();
+
+
+        void CreateBody(Function func, bool wantCLSCompliance, EnumCollection enums, string funcPrefix, Delegate wrappedDel)
+        {
+
+            string FindBuffSizeVarName(Parameter[] inputPars, string varName, string expectVarName, bool retry = true)
+            {
+                for (int i = 0; i < inputPars.Length; ++i)
+                {
+                    if (inputPars[i].Name.ToLower() == expectVarName)
+                    {
+                        return inputPars[i].Name;
+                    }
+                }
+                //temp fix
+                if (!retry)
+                {
+                    return null;
+                }
+                return FindBuffSizeVarName(inputPars, varName, (varName + "Length").ToLower(), false);
+            }
+
+
+            Function f = new Function(func);
+            f.Body.Clear();
+            handle_statements.Clear();
+            handle_release_statements.Clear();
+            fixed_statements.Clear();
+            assign_statements.Clear();
+
+            //
+            stringOutAlloc_statements.Clear();
+            stringOut_set_statements.Clear();
+            //
+            // Obtain pointers by pinning the parameters
+
+            // check parameter type is match or not
+
+
+
+#if DEBUG
+            if (func.Parameters.Count != wrappedDel.Parameters.Count)
+            {
+
+            }
+#endif
+
+
+            foreach (Parameter p in f.Parameters)
+            {
+
+                if (p.NeedsPin)
+                {
+                    if (p.WrapperType == WrapperTypes.GenericParameter)
+                    {
+                        // Use GCHandle to obtain pointer to generic parameters and 'fixed' for arrays.
+                        // This is because fixed can only take the address of fields, not managed objects.
+                        handle_statements.Add(String.Format(
+                            "{0} {1}_ptr = {0}.Alloc({1}, GCHandleType.Pinned);",
+                            "GCHandle", p.Name));
+
+                        handle_release_statements.Add(String.Format("{0}_ptr.Free();", p.Name));
+
+                        // Due to the GCHandle-style pinning (which boxes value types), we need to assign the modified
+                        // value back to the reference parameter (but only if it has an out or in/out flow direction).
+                        if ((p.Flow == FlowDirection.Out || p.Flow == FlowDirection.Undefined) && p.Reference)
+                        {
+                            assign_statements.Add(String.Format(
+                                "{0} = ({1}){0}_ptr.Target;",
+                                p.Name, p.QualifiedType));
+                        }
+
+                        // Note! The following line modifies f.Parameters, *not* this.Parameters
+                        p.Name = "(IntPtr)" + p.Name + "_ptr.AddrOfPinnedObject()";
+                    }
+                    else if ((
+                        p.WrapperType == WrapperTypes.PointerParameter ||
+                        p.WrapperType == WrapperTypes.ArrayParameter ||
+                        p.WrapperType == WrapperTypes.ReferenceParameter) ||
+                        //
+                        ((p.WrapperType & WrapperTypes.PointerParameter) == WrapperTypes.PointerParameter) ||
+                        ((p.WrapperType & WrapperTypes.ArrayParameter) == WrapperTypes.ArrayParameter) ||
+                        ((p.WrapperType & WrapperTypes.ReferenceParameter) == WrapperTypes.ReferenceParameter)
+                        )
+                    {
+                        // A fixed statement is issued for all non-generic pointers, arrays and references.
+
+
+
+                        fixed_statements.Add(String.Format(
+                            "fixed ({0}{3} {1} = {2})",
+                            (wantCLSCompliance && !p.CLSCompliant) ? p.GetCLSCompliantType() : p.QualifiedType,
+                            p.Name + "_ptr",
+                            p.Array > 0 ? p.Name : "&" + p.Name,
+                            pointer_levels[p.IndirectionLevel]));
+
+                        if (p.Name == "pixels_ptr")
+                            System.Diagnostics.Debugger.Break();
+
+                        // Arrays are not value types, so we don't need to do anything for them.
+                        // Pointers are passed directly by value, so we don't need to assign them back either (they don't change).
+                        if ((p.Flow == FlowDirection.Out || p.Flow == FlowDirection.Undefined) && p.Reference)
+                        {
+                            assign_statements.Add(String.Format("{0} = *{0}_ptr;", p.Name));
+                        }
+
+                        p.Name = p.Name + "_ptr";
+
+                        if (p.CurrentType == "IntPtr")
+                        {
+                            p.ExplicitCastType = "IntPtr";
+                        }
+                        else if (p.IsEnum)
+                        {
+                            p.ExplicitCastType = "int*";
+                        }
+                    }
+                    else
+                    {
+                        throw new ApplicationException("Unknown parameter type");
+                    }
+                }
+                else if (p.Flow == FlowDirection.Out && p.QualifiedType.ToLower() == "string")
+                {
+
+                    if (p.Name.StartsWith("@"))
+                    {
+                        p.TempOutStringName = "c_" + p.Name.Substring(1);
+                    }
+                    else
+                    {
+                        p.TempOutStringName = "c_" + p.Name;
+                    }
+
+                    //find bufSize 
+                    string bufSizeVarName = FindBuffSizeVarName(func.Parameters.ToArray(), p.Name, "bufsize");
+                    if (bufSizeVarName == null)
+                    {
+                        stringOutAlloc_statements.Add("char* " + p.TempOutStringName + " = stackalloc char[256];"); //TODO: review size 256?
+                    }
+                    else
+                    {
+                        stringOutAlloc_statements.Add("char* " + p.TempOutStringName + " = stackalloc char[(int)" + bufSizeVarName + "];");
+                    }
+
+                    //this char name has change
+                    assign_statements.Add(p.Name + "= new string(" + p.TempOutStringName + ");");
+                }
+                else if (p.Flow == FlowDirection.In && p.QualifiedType.ToLower() == "string")
+                {
+                    if ((p.WrapperType & WrapperTypes.StringArrayParameter) == WrapperTypes.StringArrayParameter)
+                    {
+
+                    }
+                    else
+                    {
+                        //if (p.Name.StartsWith("@"))
+                        //{
+                        //    p.TempOutStringName = "c_" + p.Name.Substring(1);
+                        //}
+                        //else
+                        //{
+                        //    p.TempOutStringName = "c_" + p.Name;
+                        //}
+                        //fixed_statements.Add("fixed(char* " + p.TempOutStringName + "=" + p.Name + ")");
+                    }
+
+                }
+                else if (p.IsEnum)
+                {
+                    if (p.Flow == FlowDirection.Out ||
+                        p.Pointer != 0)
+                    {
+                        p.ExplicitCastType = "int*";
+                    }
+                }
+                else if ((
+                        p.WrapperType == WrapperTypes.PointerParameter ||
+                        p.WrapperType == WrapperTypes.ArrayParameter ||
+                        p.WrapperType == WrapperTypes.ReferenceParameter) ||
+                        //
+                        ((p.WrapperType & WrapperTypes.PointerParameter) == WrapperTypes.PointerParameter) ||
+                        ((p.WrapperType & WrapperTypes.ArrayParameter) == WrapperTypes.ArrayParameter) ||
+                        ((p.WrapperType & WrapperTypes.ReferenceParameter) == WrapperTypes.ReferenceParameter)
+                        )
+                {
+                    if (p.CurrentType.Contains("[]"))
+                    {
+
+                    }
+                }
+
+            }
+
+            // Automatic OpenGL error checking.
+            // See OpenTK.Graphics.ErrorHelper for more information.
+            // Make sure that no error checking is added to the GetError function,
+            // as that would cause infinite recursion!
+            if ((Settings.Compatibility & Settings.Legacy.NoDebugHelpers) == 0)
+            {
+                if (f.TrimmedName != "GetError")
+                {
+                    f.Body.Add("#if DEBUG");
+                    f.Body.Add("using (new ErrorHelper(GraphicsContext.CurrentContext))");
+                    f.Body.Add("{");
+                    if (f.TrimmedName == "Begin")
+                        f.Body.Add("GraphicsContext.CurrentContext.ErrorChecking = false;");
+                    f.Body.Add("#endif");
+                }
+            }
+
+            if (!f.Unsafe && fixed_statements.Count > 0 || stringOutAlloc_statements.Count > 0)
+            {
+                f.Body.Add("unsafe");
+                f.Body.Add("{");
+                f.Body.Indent();
+            }
+
+
+            if (stringOutAlloc_statements.Count > 0)
+            {
+                f.Body.AddRange(stringOutAlloc_statements);
+            }
+            if (fixed_statements.Count > 0)
+            {
+                f.Body.AddRange(fixed_statements);
+                f.Body.Add("{");
+                f.Body.Indent();
+            }
+
+            if (handle_statements.Count > 0)
+            {
+                f.Body.AddRange(handle_statements);
+                f.Body.Add("try");
+                f.Body.Add("{");
+                f.Body.Indent();
+            }
+
+            // Hack: When creating untyped enum wrappers, it is possible that the wrapper uses an "All"
+            // enum, while the delegate uses a specific enum (e.g. "TextureUnit"). For this reason, we need
+            // to modify the parameters before generating the call string.
+            // Note: We cannot generate a callstring using WrappedDelegate directly, as its parameters will
+            // typically be different than the parameters of the wrapper. We need to modify the parameters
+            // of the wrapper directly.
+            if ((Settings.Compatibility & Settings.Legacy.KeepUntypedEnums) != 0)
+            {
+                int parameter_index = -1; // Used for comparing wrapper parameters with delegate parameters
+                foreach (Parameter p in f.Parameters)
+                {
+                    parameter_index++;
+                    //if (IsEnum(p.Name, enums) && p.QualifiedType != f.WrappedDelegate.Parameters[parameter_index].QualifiedType)
+                    //{
+                    //    p.QualifiedType = f.WrappedDelegate.Parameters[parameter_index].QualifiedType;
+                    //}
+                    if (IsEnum(p.CurrentType, enums))//&& p.QualifiedType != f.WrappedDelegate.Parameters[parameter_index].QualifiedType)
+                    {
+                        p.QualifiedType = "int"; // f.WrappedDelegate.Parameters[parameter_index].QualifiedType;
+                    }
+                }
+            }
+            string wrappedDelegateEntryPointName = funcPrefix + f.WrappedDelegate.EntryPoint;
+
+            if (assign_statements.Count > 0)
+            {
+                // Call function
+                string method_call = f.CallString(wrappedDelegateEntryPointName, f.WrappedDelegate);
+                if (f.ReturnType.CurrentType.ToLower().Contains("void"))
+                {
+                    f.Body.Add(String.Format("{0};", method_call));
+                }
+                else if (func.ReturnType.CurrentType.ToLower().Contains("string"))
+                {
+                    f.Body.Add(String.Format("{0} {1} = null; unsafe {{ {1} = new string((sbyte*){2}); }}",
+                        func.ReturnType.QualifiedType, "retval", method_call));
+                }
+                else if (func.ReturnType.CurrentType.ToLower() == "bool")
+                {
+                    f.Body.Add(String.Format("{0} {1} = {2} !=0;", f.ReturnType.QualifiedType, "retval", method_call));
+                }
+                else
+                {
+                    f.Body.Add(String.Format("{0} {1} = {2};", f.ReturnType.QualifiedType, "retval", method_call));
+                }
+                // Assign out parameters
+                f.Body.AddRange(assign_statements);
+
+                // Return
+                if (!f.ReturnType.CurrentType.ToLower().Contains("void"))
+                {
+                    f.Body.Add("return retval;");
+                }
+            }
+            else
+            {
+                // Call function and return
+                if (f.ReturnType.CurrentType.ToLower().Contains("void"))
+                {
+                    f.Body.Add(String.Format("{0};", f.CallString(wrappedDelegateEntryPointName, f.WrappedDelegate)));
+                }
+                else if (func.ReturnType.CurrentType.ToLower().Contains("string"))
+                {
+                    f.Body.Add(String.Format("unsafe {{ return new string((sbyte*){0}); }}",
+                        f.CallString(wrappedDelegateEntryPointName, f.WrappedDelegate)));
+                }
+                else if (func.ReturnType.CurrentType.ToLower() == "bool")
+                {
+                    f.Body.Add(String.Format($"return  ({ f.CallString(wrappedDelegateEntryPointName, f.WrappedDelegate)}) != 0;"));
+                }
+                else if (func.ReturnType.IsEnum)
+                {
+                    //cast enum
+                    f.Body.Add(String.Format($"return ({func.ReturnType}) ({ f.CallString(wrappedDelegateEntryPointName, f.WrappedDelegate)});"));
+                }
+                else
+                {
+                    f.Body.Add(String.Format("return {0};", f.CallString(wrappedDelegateEntryPointName, f.WrappedDelegate)));
+                }
+            }
+
+
+            // Free all allocated GCHandles
+            if (handle_statements.Count > 0)
+            {
+                f.Body.Unindent();
+                f.Body.Add("}");
+                f.Body.Add("finally");
+                f.Body.Add("{");
+                f.Body.Indent();
+
+                f.Body.AddRange(handle_release_statements);
+
+                f.Body.Unindent();
+                f.Body.Add("}");
+            }
+
+            if (!f.Unsafe && fixed_statements.Count > 0 || stringOutAlloc_statements.Count > 0)
+            {
+                f.Body.Unindent();
+                f.Body.Add("}");
+            }
+
+            if (fixed_statements.Count > 0)
+            {
+                f.Body.Unindent();
+                f.Body.Add("}");
+            }
+
+            if ((Settings.Compatibility & Settings.Legacy.NoDebugHelpers) == 0)
+            {
+                if (f.TrimmedName != "GetError")
+                {
+                    f.Body.Add("#if DEBUG");
+                    if (f.TrimmedName == "End")
+                        f.Body.Add("GraphicsContext.CurrentContext.ErrorChecking = true;");
+                    f.Body.Add("}");
+                    f.Body.Add("#endif");
+                }
+            }
+
+            func.Body = f.Body;
+        }
         private void WriteMethod(BindStreamWriter sw, Function f, EnumCollection enums)
         {
             if (!String.IsNullOrEmpty(f.Obsolete))
@@ -417,7 +984,7 @@ namespace Bind
 
         private void WriteConstants(BindStreamWriter sw, IEnumerable<Constant> constants)
         {
-             // Make sure everything is sorted. This will avoid random changes between
+            // Make sure everything is sorted. This will avoid random changes between
             // consecutive runs of the program.
             constants = constants.OrderBy(c => c);
 
@@ -606,12 +1173,27 @@ namespace Bind
 
             return sb.ToString();
         }
+        private string GetDeclarationString2(Delegate d, bool is_delegate)
+        {
+            StringBuilder sb = new StringBuilder();
 
+            sb.Append(d.Unsafe ? "unsafe " : "");
+            if (is_delegate)
+            {
+                sb.Append("delegate ");
+            }
+            sb.Append(GetDeclarationString(d.ReturnType, Settings.Legacy.ConstIntEnums));
+            sb.Append(" ");
+            sb.Append(d.Name);
+            sb.Append(GetDeclarationString(d.Parameters, Settings.Legacy.ConstIntEnums));
+
+            return sb.ToString();
+        }
         private string GetDeclarationString(Enum e)
         {
             StringBuilder sb = new StringBuilder();
             List<Constant> constants = new List<Constant>(e.ConstantCollection.Values);
-            constants.Sort(delegate(Constant c1, Constant c2)
+            constants.Sort(delegate (Constant c1, Constant c2)
             {
                 int ret = String.Compare(c1.Value, c2.Value);
                 if (ret == 0)
@@ -659,10 +1241,13 @@ namespace Bind
             }
             sb.Append(!String.IsNullOrEmpty(f.TrimmedName) ? f.TrimmedName : f.Name);
 
+
+
+
             if (f.Parameters.HasGenericParameters)
             {
                 sb.Append("<");
-                foreach (Parameter p in f.Parameters.Where(p  => p.Generic))
+                foreach (Parameter p in f.Parameters.Where(p => p.Generic))
                 {
                     sb.Append(p.CurrentType);
                     sb.Append(", ");
@@ -756,7 +1341,19 @@ namespace Bind
             }
             else
             {
-                sb.Append(GetDeclarationString(p as Type, settings));
+                if ((p.WrapperType & WrapperTypes.StringArrayParameter) == WrapperTypes.StringArrayParameter)
+                {
+                    sb.Append("string[]");
+                }
+                else if (p.Flow == FlowDirection.In && (p.WrapperType & WrapperTypes.StringParameter) == WrapperTypes.StringParameter)
+                {
+                    sb.Append("string");
+                }
+                else
+                {
+                    sb.Append(GetDeclarationString(p as Type, settings));
+                }
+
             }
             if (!String.IsNullOrEmpty(p.Name))
             {
@@ -792,6 +1389,7 @@ namespace Bind
         private string GetDeclarationString(Type type, Settings.Legacy settings)
         {
             var t = type.QualifiedType;
+
             if ((settings & Settings.Legacy.ConstIntEnums) != 0)
             {
                 if (type.IsEnum)

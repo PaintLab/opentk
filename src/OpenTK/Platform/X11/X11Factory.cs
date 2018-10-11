@@ -59,7 +59,7 @@ namespace OpenTK.Platform.X11
             Debug.Print("Initializing threaded X: {0}.", result != 0 ? "success" : "failed");
         }
 
-        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
         {
             return new X11GLNative(x, y, width, height, title, mode, options, device);
         }

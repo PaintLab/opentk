@@ -29,7 +29,7 @@ using System;
 
 namespace OpenTK.Input
 {
-    internal interface IJoystickDriver2
+    public interface IJoystickDriver2
     {
         JoystickState GetState(int index);
         JoystickCapabilities GetCapabilities(int index);

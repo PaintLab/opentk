@@ -32,7 +32,7 @@ using OpenTK.Graphics;
 
 namespace OpenTK.Platform.Windows
 {
-    internal class WinGraphicsMode : IGraphicsMode
+    public class WinGraphicsMode : IGraphicsMode
     {
         private enum AccelerationType
         {

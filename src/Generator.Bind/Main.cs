@@ -46,7 +46,7 @@ namespace Bind
 
             Console.WriteLine("OpenGL binding generator {0} for OpenTK.",
                 Assembly.GetExecutingAssembly().GetName().Version.ToString());
-            Console.WriteLine("For comments, bugs and suggestions visit http://github.com/opentk/opentk");
+            Console.WriteLine("This is a modified version, see original version at http://github.com/opentk/opentk");
             Console.WriteLine();
 
             try
@@ -93,37 +93,37 @@ namespace Bind
                             case "legacy":
                             case "o":
                             case "option":
-                            {
-                                val = val.ToLower();
-                                bool enable = !opt.StartsWith("-");
-                                if (val.StartsWith("+") || val.StartsWith("-"))
                                 {
-                                    val = val.Substring(1);
-                                }
+                                    val = val.ToLower();
+                                    bool enable = !opt.StartsWith("-");
+                                    if (val.StartsWith("+") || val.StartsWith("-"))
+                                    {
+                                        val = val.Substring(1);
+                                    }
 
-                                var settings = Settings.Legacy.None;
-                                switch (val)
-                                {
-                                    case "tao": settings |= Settings.Legacy.Tao; break;
-                                    case "simple_enums": settings |= Settings.Legacy.NoAdvancedEnumProcessing; break;
-                                    case "safe": settings |= Settings.Legacy.NoPublicUnsafeFunctions; break;
-                                    case "permutations": settings |= Settings.Legacy.GenerateAllPermutations; break;
-                                    case "enums_in_class": settings |= Settings.Legacy.NestedEnums; break;
-                                    case "nodocs": settings |= Settings.Legacy.NoDocumentation; break;
-                                    case "keep_untyped_enums": settings |= Settings.Legacy.KeepUntypedEnums; break;
-                                }
+                                    var settings = Settings.Legacy.None;
+                                    switch (val)
+                                    {
+                                        case "tao": settings |= Settings.Legacy.Tao; break;
+                                        case "simple_enums": settings |= Settings.Legacy.NoAdvancedEnumProcessing; break;
+                                        case "safe": settings |= Settings.Legacy.NoPublicUnsafeFunctions; break;
+                                        case "permutations": settings |= Settings.Legacy.GenerateAllPermutations; break;
+                                        case "enums_in_class": settings |= Settings.Legacy.NestedEnums; break;
+                                        case "nodocs": settings |= Settings.Legacy.NoDocumentation; break;
+                                        case "keep_untyped_enums": settings |= Settings.Legacy.KeepUntypedEnums; break;
+                                    }
 
-                                if (enable)
-                                {
-                                    Settings.Compatibility |= settings;
-                                }
-                                else
-                                {
-                                    Settings.Compatibility &= ~settings;
-                                }
+                                    if (enable)
+                                    {
+                                        Settings.Compatibility |= settings;
+                                    }
+                                    else
+                                    {
+                                        Settings.Compatibility &= ~settings;
+                                    }
 
-                                break;
-                            }
+                                    break;
+                                }
                             default:
                                 throw new ArgumentException(
                                     String.Format("Argument {0} not recognized. Use the '/?' switch for help.", a)
@@ -142,6 +142,8 @@ namespace Bind
                 Console.WriteLine("Argument error ({0}). Please use the '-?' switch for help.", e.ToString());
                 return;
             }
+
+            mode = GeneratorMode.ES30;
 
             try
             {
