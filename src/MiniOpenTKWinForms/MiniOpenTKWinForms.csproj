@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_MyExtension\SimpleReflectionHelper.cs" />
-    <Compile Include="0_MyExtension\INativeWindow2.cs" />
-    <Compile Include="0_MyExtension\IPlatformFactory2.cs" />
     <Compile Include="UserGLControl\Agl.cs">
       <DependentUpon>CarbonGLControl.cs</DependentUpon>
     </Compile>
