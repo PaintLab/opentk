@@ -157,7 +157,7 @@ namespace Bind
             File.Move(temp_enums_file, output_enums);
             File.Move(temp_wrappers_file, output_wrappers);
             //COPY
-            string es30EnumFile = @"src\MiniOpenTK\Graphics\ES30\ES30Enum.cs";
+            string es30EnumFile = @"src\OpenTK\0_MyExtension\ES30mini\ES30Enum.cs";
             File.Copy(output_enums, es30EnumFile, true);
         }
 
@@ -223,7 +223,7 @@ namespace Bind
             sw.WriteLine();
 
 
-            string glClassFile = @"src\MiniOpenTK\Graphics\ES30\ES30.cs";
+            string glClassFile = @"src\OpenTK\0_MyExtension\ES30mini\ES30.cs";
             BindStreamWriter sw2 = new BindStreamWriter(glClassFile);
             {
                 sw2.WriteLine("//autogen " + DateTime.Now.ToString("u"));
@@ -399,7 +399,7 @@ namespace Bind
                 string api1 = Encoding.UTF8.GetString(ms.ToArray());
 
                 string curDir = System.IO.Directory.GetCurrentDirectory();
-                File.WriteAllText(@"src\MiniOpenTK\Graphics\ES30\ES30Delegate.cs", api1);
+                File.WriteAllText(@"src\OpenTK\0_MyExtension\ES30mini\ES30Delegate.cs", api1);
                 // 
             }
         }
@@ -442,10 +442,7 @@ namespace Bind
 
 #if DEBUG
             _dbugWrite_Id++;
-            if (_dbugWrite_Id == 332)
-            {
-
-            }
+            
 
             sw.WriteLine("//x* " + _dbugWrite_Id);
 #endif
