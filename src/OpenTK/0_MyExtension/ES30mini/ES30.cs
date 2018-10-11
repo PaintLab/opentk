@@ -1,5 +1,5 @@
-//autogen 2018-10-11 19:57:04Z
-namespace OpenTK.Graphics.ES30{
+//autogen 2018-10-12 05:21:18Z
+namespace OpenTK.Graphics.ES30 {
  using System;
  using System.Text;
  using System.Runtime.InteropServices; 

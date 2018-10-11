@@ -9,6 +9,11 @@
     <Import_RootNamespace>MiniOpenTK_SH</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES20mini\ErrorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES20mini\ES20.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES20mini\ES20Delegate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES20mini\ES20Enum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES20mini\Helper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES30mini\ErrorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES30mini\ES30.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension\ES30mini\ES30Delegate.cs" />
