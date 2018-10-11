@@ -15,7 +15,8 @@
     <EmbeddedResource Remove="Math\**" />
     <None Remove="Math\**" />
   </ItemGroup>
+ 
 
-  <Import Project="..\OpenTK\MiniOpenTK_SH.projitems" Label="Shared" />
+  <Import Project="..\OpenTK\MiniOpenTK_Core1.projitems" Label="Shared" />
 
 </Project>
