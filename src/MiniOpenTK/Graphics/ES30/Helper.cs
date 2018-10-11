@@ -50,7 +50,10 @@ namespace OpenTK.Graphics.ES30
         {
 
         }
-
+        public override void LoadEntryPoints()
+        {
+            GLDelInit.LoadAll();
+        }
         /// <summary>
         /// Returns a synchronization token unique for the GL class.
         /// </summary>
