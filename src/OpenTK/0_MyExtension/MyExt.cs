@@ -23,11 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
-using OpenTK.Platform;
+ 
 
 namespace OpenTK.Graphics
 {

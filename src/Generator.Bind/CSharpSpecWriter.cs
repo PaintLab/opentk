@@ -39,7 +39,7 @@ namespace Bind
 
     static class CodeGenSetting
     {
-        public const string GLDelegateClass = "MyGLs";
+        public const string GLDelegateClass = "Delegates";
     }
 
     internal sealed class CSharpSpecWriter
@@ -220,12 +220,16 @@ namespace Bind
 
             BindStreamWriter sw2 = new BindStreamWriter("d:\\WImageTest\\tmpBind.cs");
             {
-
+                sw2.WriteLine("//autogen " + DateTime.Now.ToString("z"));
                 sw2.WriteLine("namespace OpenTK.Graphics.ES30.Ex{");
                 sw2.WriteLine(" using System;");
                 sw2.WriteLine(" using System.Text;");
                 sw2.WriteLine(" using System.Runtime.InteropServices; ");
-                sw2.WriteLine("  public static class GL{");
+                //
+                sw2.WriteLine("  public partial class GL{");
+                sw2.WriteLine("  public void LoadAll(){");
+                sw2.WriteLine("     GLDelInit.LoadAll();");
+                sw2.WriteLine("}");
             }
 
 
@@ -318,6 +322,7 @@ namespace Bind
             using (MemoryStream ms = new MemoryStream())
             using (StreamWriter ww = new StreamWriter(ms))
             {
+                ww.WriteLine("//autogen " + DateTime.Now.ToString("z"));
                 ww.WriteLine("namespace OpenTK.Graphics.ES30.Ex{");
                 ww.WriteLine(" using System;");
                 ww.WriteLine(" using System.Text;");
@@ -350,21 +355,28 @@ namespace Bind
                     ww.WriteLine($"public static {d.Name}  {Settings.FunctionPrefix + d.Name};");
                     ww.WriteLine();
                 }
+               
+                ww.WriteLine("}"); //close class GLDelegateClass
                 //------------
 
-                //for (int i = 0; i < outputFuncs.Count; ++i)
-                //{
-                //    Delegate d = outputFuncs[i];
-                //    ww.WriteLine();
-                //    ww.WriteLine("//m2* " + marker_count++);
-                //    ww.WriteLine();
-                //    ww.WriteLine($"public static {d.Name}  {Settings.FunctionPrefix + d.Name};");
-                //    ww.WriteLine();
-                //}
+                //GlDelInitClass
+                ww.WriteLine("static class GLDelInit{");
+                ww.WriteLine("static void AssignDelegate<T>(out T del, string funcName){del = (T)(object)Marshal.GetDelegateForFunctionPointer(PlatformAddressPortal.GetAddressDelegate(funcName), typeof(T));}");
+                ww.WriteLine("public static void LoadAll(){");
+                for (int i = 0; i < outputFuncs.Count; ++i)
+                {
+                    Delegate d = outputFuncs[i];
+                    ww.WriteLine("AssignDelegate(out " + CodeGenSetting.GLDelegateClass + "." + Settings.FunctionPrefix + d.Name + ",\"" + Settings.FunctionPrefix + d.Name + "\");");
+                }
+                ww.WriteLine("}"); //close LoadAll()
+                // 
+
+
+
 
                 ww.WriteLine("}"); //close class
                 //------------
-                ww.WriteLine("}");
+                ww.WriteLine("}"); //namespace
                 ww.Flush();
                 //
                 string api1 = Encoding.UTF8.GetString(ms.ToArray());
