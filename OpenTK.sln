@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniOpenTKWinForms", "src\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTriangle", "..\opentk-examples-master\src\BasicTriangle\BasicTriangle.csproj", "{82E18ED0-E9A4-4EF4-830C-AA497B8A70EF}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MiniOpenTK_SH", "src\OpenTK\MiniOpenTK_SH.shproj", "{17B7FB0C-7638-4C89-AADF-F3835803CB17}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MiniOpenTK_Core1", "src\OpenTK\MiniOpenTK_Core1.shproj", "{17B7FB0C-7638-4C89-AADF-F3835803CB17}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

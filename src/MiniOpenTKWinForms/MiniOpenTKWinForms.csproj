@@ -577,9 +577,9 @@
     <Compile Include="..\OpenTK\WindowState.cs">
       <Link>WindowState.cs</Link>
     </Compile>
-    <Compile Include="0_Init\SimpleReflectionHelper.cs" />
-    <Compile Include="INativeWindow2.cs" />
-    <Compile Include="Platform\IPlatformFactory2.cs" />
+    <Compile Include="0_MyExtension\SimpleReflectionHelper.cs" />
+    <Compile Include="0_MyExtension\INativeWindow2.cs" />
+    <Compile Include="0_MyExtension\IPlatformFactory2.cs" />
     <Compile Include="UserGLControl\Agl.cs">
       <DependentUpon>CarbonGLControl.cs</DependentUpon>
     </Compile>
