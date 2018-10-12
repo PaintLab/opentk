@@ -366,20 +366,20 @@ namespace OpenTK.Graphics.ES30
             }
         }
 
-        public static void Viewport(Size size)
-        {
-            GL.Viewport(0, 0, size.Width, size.Height);
-        }
+        //public static void Viewport(Size size)
+        //{
+        //    GL.Viewport(0, 0, size.Width, size.Height);
+        //}
 
-        public static void Viewport(Point location, Size size)
-        {
-            GL.Viewport(location.X, location.Y, size.Width, size.Height);
-        }
+        //public static void Viewport(Point location, Size size)
+        //{
+        //    GL.Viewport(location.X, location.Y, size.Width, size.Height);
+        //}
 
-        public static void Viewport(Rectangle rectangle)
-        {
-            GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-        }
+        //public static void Viewport(Rectangle rectangle)
+        //{
+        //    GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        //}
 //#if MINIMAL
 //        public static void Viewport(OpenTK.Point location, OpenTK.Size size)
 //        {
@@ -435,4 +435,33 @@ namespace OpenTK.Graphics.ES30
         IntPtr userParam);
 
 #pragma warning restore 1574 // XML comment cref attribute could not be resolved, compiler bug in Mono 3.4.0
+
+
+    partial class GL
+    {
+        public static void DrawArrays(BeginMode beginMode, int first, int count)
+        {
+            GL.DrawArrays((PrimitiveType)beginMode, first, count);
+        }
+        public static void DrawElements(BeginMode beginMode, int nelements, DrawElementsType type, IntPtr offset)
+        {
+            GL.DrawElements((PrimitiveType)beginMode, nelements, type, offset);
+        }
+        public static int GenTexture()
+        {
+            GL.GenTextures(1, out int textureId);
+            return textureId;
+        }
+        public static void DeleteTexture(int textureId)
+        {
+            unsafe
+            {
+                int* arr = stackalloc int[1];
+                arr[0] = textureId;
+                GL.DeleteTextures(1, arr);
+            }
+        }
+    }
+
+
 }

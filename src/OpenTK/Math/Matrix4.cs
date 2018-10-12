@@ -29,7 +29,7 @@ namespace OpenTK
     /// Represents a 4x4 matrix containing 3D rotation, scale, transform, and projection.
     /// </summary>
     /// <seealso cref="Matrix4d"/>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Matrix4 : IEquatable<Matrix4>
     {

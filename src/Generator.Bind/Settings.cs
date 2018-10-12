@@ -10,7 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Bind
 {
-    [Serializable]
+    
     internal class Settings
     {
         public Settings()

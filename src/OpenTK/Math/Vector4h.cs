@@ -31,8 +31,8 @@ namespace OpenTK
     /// <summary>
     /// 4-component Vector of the Half type. Occupies 8 Byte total.
     /// </summary>
-    [Serializable, StructLayout(LayoutKind.Sequential)]
-    public struct Vector4h : ISerializable, IEquatable<Vector4h>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Vector4h : IEquatable<Vector4h>
     {
         /// <summary>The X component of the Half4.</summary>
         public Half X;

@@ -90,7 +90,6 @@ namespace OpenTK.Graphics.ES20
                 }
             }
         }
-        //public static void  BufferData(BufferTarget.ArrayBuffer, Points.Length* sizeof(float), Points, BufferUsageHint.StaticDraw);
 
         //-----------------------------------------------------------------
 #pragma warning disable 3019
@@ -372,6 +371,10 @@ namespace OpenTK.Graphics.ES20
         {
             GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
+
+
+
+
         //#if MINIMAL
         //        public static void Viewport(OpenTK.Point location, OpenTK.Size size)
         //        {
@@ -427,4 +430,61 @@ namespace OpenTK.Graphics.ES20
         IntPtr userParam);
 
 #pragma warning restore 1574 // XML comment cref attribute could not be resolved, compiler bug in Mono 3.4.0
+
+
+
+    partial class GL
+    {
+        public static void DrawArrays(BeginMode beginMode, int first, int count)
+        {
+            GL.DrawArrays((PrimitiveType)beginMode, first, count);
+        }
+        public static void DrawElements(BeginMode beginMode, int nelements, DrawElementsType type, int offset)
+        {
+            GL.DrawElements((PrimitiveType)beginMode, nelements, type, (IntPtr)offset);
+        }
+        public static int GenTexture()
+        {
+            GL.GenTextures(1, out int textureId);
+            return textureId;
+        }
+        public static void DeleteTexture(int textureId)
+        {
+            unsafe
+            {
+                int* arr = stackalloc int[1];
+                arr[0] = textureId;
+                GL.DeleteTextures(1, arr);
+            }
+        }
+        public static void VertexAttribPointer(int location, int size, VertexAttribPointerType type, bool normalize, int byteCount, float[] vertices)
+        {
+            unsafe
+            {
+                fixed (float* v_ptr = vertices)
+                {
+                    GL.VertexAttribPointer(location,
+                         size, //float2
+                         type,
+                         normalize,
+                         byteCount, //total size
+                        (IntPtr)v_ptr);
+                }
+            }
+
+        }
+        public static void DrawElements(BeginMode mode, int size, DrawElementsType elemType, ushort[] indices)
+        {
+            unsafe
+            {
+                fixed (ushort* v_ptr = indices)
+                {
+                    GL.DrawElements((PrimitiveType)mode, size, elemType, (IntPtr)v_ptr);
+                }
+            }
+        } 
+    }
 }
+
+
+

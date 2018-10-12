@@ -715,7 +715,7 @@ namespace OpenTK
     /// <summary>
     /// Represents a color with 4 8bit components (R, G, B, A).
     /// </summary>
-    [Serializable]
+    
     public struct Color : IEquatable<Color>
     {
         /// <summary>

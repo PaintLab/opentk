@@ -73,8 +73,8 @@ namespace OpenTK
     /// but must not lead to GL interruption or termination. Providing a denormalized number or negative zero to GL must yield
     /// predictable results.
     /// </remarks>
-    [Serializable, StructLayout(LayoutKind.Sequential)]
-    public struct Half : ISerializable, IComparable<Half>, IFormattable, IEquatable<Half>
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Half : IComparable<Half>, IFormattable, IEquatable<Half>
     {
         private UInt16 bits;
 
