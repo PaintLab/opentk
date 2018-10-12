@@ -641,37 +641,46 @@ namespace OpenTK.Graphics
         GraphicsContext(OpenTK.Platform.External.ExternalGraphicsContext externalGraphicsContext)
         {
             implementation = externalGraphicsContext;
+
             lock (SyncRoot)
             {
-                IsExternal = true;
-                //if (handle == ContextHandle.Zero)
-                //{
-                //    implementation = new OpenTK.Platform.Dummy.DummyGLContext(handle);
-                //}
-                //else if (available_contexts.ContainsKey(handle))
-                //{
-                //    throw new GraphicsContextException("Context already exists.");
-                //}
-                //else
-                //{
-                //    switch ((flags & GraphicsContextFlags.Embedded) == GraphicsContextFlags.Embedded)
-                //    {
-                //        case false: implementation = Factory.Default.CreateGLContext(handle, window, shareContext, direct_rendering, major, minor, flags); break;
-                //        case true: implementation = Factory.Embedded.CreateGLContext(handle, window, shareContext, direct_rendering, major, minor, flags); break;
-                //    }
-                //}
-
-                available_contexts.Add((implementation as IGraphicsContextInternal).Context, this);
-                (this as IGraphicsContextInternal).LoadAll();
 
 
-                GetCurrentContextDelegate temp = externalGraphicsContext.CreateCurrentContextDel();
-                if (temp != null)
+                // Angle needs an embedded context
+                //const GraphicsContextFlags useAngleFlag = GraphicsContextFlags.Angle
+                //                                          | GraphicsContextFlags.AngleD3D9
+                //                                          | GraphicsContextFlags.AngleD3D11
+                //                                          | GraphicsContextFlags.AngleOpenGL;
+
+                bool useAngle = true;
+                try
                 {
-                    GetCurrentContext = temp;
+                    IsExternal = true;
+                    IPlatformFactory factory = Factory.Embedded;
+
+                    // Note: this approach does not allow us to mix native and EGL contexts in the same process.
+                    // This should not be a problem, as this use-case is not interesting for regular applications.
+                    // Note 2: some platforms may not support a direct way of getting the current context
+                    // (this happens e.g. with DummyGLContext). In that case, we use a slow fallback which
+                    // iterates through all known contexts and checks if any is current (check GetCurrentContext
+                    // declaration).
+
+                    if (GetCurrentContext == null)
+                    {
+                        GetCurrentContext = externalGraphicsContext.CreateCurrentContextDel(); // factory.CreateGetCurrentGraphicsContext();
+                    }
+
+                    available_contexts.Add((implementation as IGraphicsContextInternal).Context, this);
+                    (this as IGraphicsContextInternal).LoadAll();
+
+
+                    handle_cached = ((IGraphicsContextInternal)implementation).Context;
+                    factory.RegisterResource(this);
                 }
+                catch (Exception ex)
+                {
 
-
+                }
             }
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -173,18 +173,18 @@ namespace OpenTK.Platform
 
         public static GraphicsContext.GetAddressDelegate CreateGetAddress()
         {
-#if SDL2
+            //#if SDL2
             if (Configuration.RunningOnSdl2)
             {
                 return Platform.SDL2.SDL.GL.GetProcAddress;
             }
-#endif
-#if WIN32
+            //#endif
+            //#if WIN32
             if (Configuration.RunningOnWindows)
             {
                 return Platform.Windows.Wgl.GetAddress;
             }
-#endif
+            //#endif
 #if X11
             if (Configuration.RunningOnX11)
             {
@@ -197,7 +197,7 @@ namespace OpenTK.Platform
                 return Platform.MacOS.NS.GetAddress;
             }
 #endif
-
+            return Platform.Windows.Wgl.GetAddress;
             // Other platforms: still allow dummy contexts to be created (if no Loader is required)
             return EmptyGetAddress;
         }

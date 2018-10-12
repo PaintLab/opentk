@@ -10632,7 +10632,16 @@ namespace OpenTK.Graphics.ES20
             using (new ErrorHelper(GraphicsContext.CurrentContext))
             {
 #endif
-                unsafe { return new string((sbyte*)Delegates.glGetString((int)name)); }
+                //return Marshal.PtrToStringAnsi(Delegates.glGetString((int)name));
+
+                unsafe
+                {
+                    //***                   
+
+                    //sbyte* gl_getstr = (sbyte*)Delegates.glGetString((int)name);
+
+                    return new string((sbyte*)Delegates.glGetString((int)name));
+                }
 #if DEBUG
             }
 #endif
