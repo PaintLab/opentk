@@ -64,6 +64,12 @@
     </Compile>
     <Compile Include="UserGLControl\GLControlFactory.cs" />
     <Compile Include="UserGLControl\IGLControl.cs" />
+    <Compile Include="UserGLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserGLControl\MyGLControl.Designer.cs">
+      <DependentUpon>MyGLControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserGLControl\NS.cs">
       <DependentUpon>CarbonGLControl.cs</DependentUpon>
     </Compile>
@@ -81,6 +87,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserGLControl\MyGLControl.resx">
+      <DependentUpon>MyGLControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="..\..\OpenTK.snk">
       <Link>UserGLControl\OpenTK.snk</Link>
     </None>
