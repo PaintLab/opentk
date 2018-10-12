@@ -8,10 +8,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>MiniOpenTKWinForms</RootNamespace>
     <AssemblyName>MiniOpenTKWinForms</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -19,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;OPENGLES, SDL2,WIN32</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;OPENGLES, SDL2,WIN32, MINIMAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -41,7 +42,6 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UserGLControl\Agl.cs">
@@ -79,6 +79,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="..\..\OpenTK.snk">
       <Link>UserGLControl\OpenTK.snk</Link>
@@ -105,8 +106,8 @@
     <None Include="UserGLControl\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Builds\NETSTD2\MiniOpenTKLevel1\MiniOpenTKLevel1.csproj">
-      <Project>{aec72fbf-5286-4ab9-a18a-26ced9499de2}</Project>
+    <ProjectReference Include="..\Builds\Net20\MiniOpenTKLevel1\MiniOpenTKLevel1.csproj">
+      <Project>{d49440c2-785f-4bac-9f2e-fc93603fa647}</Project>
       <Name>MiniOpenTKLevel1</Name>
     </ProjectReference>
   </ItemGroup>

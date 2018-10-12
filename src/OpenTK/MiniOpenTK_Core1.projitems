@@ -32,8 +32,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisplayIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayResolution.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Exceptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FrameEventArgs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameWindowFlags.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\Color4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\ColorFormat.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Graphics\GraphicsBindingsBase.cs" />
