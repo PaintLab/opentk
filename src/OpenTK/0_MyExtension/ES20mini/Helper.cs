@@ -307,11 +307,12 @@ namespace OpenTK.Graphics.ES20
             VertexAttribPointer(index, size, type, normalized, stride, (IntPtr)offset);
         }
 
-        [CLSCompliant(false)]
+
         public static void VertexAttribPointer(uint index, int size, VertexAttribPointerType type, bool normalized, int stride, int offset)
         {
             VertexAttribPointer(index, size, type, normalized, stride, (IntPtr)offset);
         }
+
 
         public static void GetFloat(GetPName pname, out Vector2 vector)
         {
@@ -477,7 +478,32 @@ namespace OpenTK.Graphics.ES20
                 }
             }
         }
-
+        public static void VertexAttribPointer<T>(uint index, int size, VertexAttribPointerType type, bool normalized, int stride, T[] arr)
+            where T : struct
+        {
+            System.Runtime.InteropServices.GCHandle pAddress_ptr = System.Runtime.InteropServices.GCHandle.Alloc(arr, System.Runtime.InteropServices.GCHandleType.Pinned);
+            try
+            {
+                GL.VertexAttribPointer(index, size, type, normalized, stride, (IntPtr)pAddress_ptr.AddrOfPinnedObject());                 
+            }
+            finally
+            {
+                pAddress_ptr.Free();
+            }
+        }
+        public static void VertexAttribPointer<T>(int index, int size, VertexAttribPointerType type, bool normalized, int stride, T[] arr)
+            where T : struct
+        {
+            System.Runtime.InteropServices.GCHandle pAddress_ptr = System.Runtime.InteropServices.GCHandle.Alloc(arr, System.Runtime.InteropServices.GCHandleType.Pinned);
+            try
+            {
+                GL.VertexAttribPointer(index, size, type, normalized, stride, (IntPtr)pAddress_ptr.AddrOfPinnedObject());
+            }
+            finally
+            {
+                pAddress_ptr.Free();
+            }
+        }
         public static void VertexAttribPointer(Int32 index, Int32 size,
             OpenTK.Graphics.ES20.VertexAttribPointerType type,
             bool normalized,
@@ -532,8 +558,8 @@ namespace OpenTK.Graphics.ES20
                        (System.IntPtr)buffer_ptr);
                 }
             }
-
         }
+
 
     }
 }
