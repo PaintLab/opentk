@@ -30,7 +30,7 @@ namespace OpenTK
     /// <remarks>
     /// The Vector4 structure is suitable for interoperation with unmanaged code requiring four consecutive floats.
     /// </remarks>
-    
+
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4 : IEquatable<Vector4>
     {
@@ -170,8 +170,10 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets the value at the index of the Vector.
         /// </summary>
-        public float this[int index] {
-            get{
+        public float this[int index]
+        {
+            get
+            {
                 if (index == 0)
                 {
                     return X;
@@ -189,7 +191,9 @@ namespace OpenTK
                     return W;
                 }
                 throw new IndexOutOfRangeException("You tried to access this vector at index: " + index);
-            } set{
+            }
+            set
+            {
                 if (index == 0)
                 {
                     X = value;
@@ -1426,7 +1430,7 @@ namespace OpenTK
         /// <param name="v">The instance.</param>
         /// <returns>A pointer to the first element of v.</returns>
         [CLSCompliant(false)]
-        unsafe public static explicit operator float*(Vector4 v)
+        unsafe public static explicit operator float* (Vector4 v)
         {
             return &v.X;
         }

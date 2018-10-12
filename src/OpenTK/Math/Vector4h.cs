@@ -23,7 +23,7 @@ SOFTWARE.
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
+
 
 
 namespace OpenTK
@@ -662,27 +662,27 @@ namespace OpenTK
         /// <summary>The size in bytes for an instance of the Half4 struct is 8.</summary>
         public static readonly int SizeInBytes = 8;
 
-        /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public Vector4h(SerializationInfo info, StreamingContext context)
-        {
-            this.X = (Half)info.GetValue("X", typeof(Half));
-            this.Y = (Half)info.GetValue("Y", typeof(Half));
-            this.Z = (Half)info.GetValue("Z", typeof(Half));
-            this.W = (Half)info.GetValue("W", typeof(Half));
-        }
+        ///// <summary>Constructor used by ISerializable to deserialize the object.</summary>
+        ///// <param name="info"></param>
+        ///// <param name="context"></param>
+        //public Vector4h(SerializationInfo info, StreamingContext context)
+        //{
+        //    this.X = (Half)info.GetValue("X", typeof(Half));
+        //    this.Y = (Half)info.GetValue("Y", typeof(Half));
+        //    this.Z = (Half)info.GetValue("Z", typeof(Half));
+        //    this.W = (Half)info.GetValue("W", typeof(Half));
+        //}
 
-        /// <summary>Used by ISerialize to serialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("X", this.X);
-            info.AddValue("Y", this.Y);
-            info.AddValue("Z", this.Z);
-            info.AddValue("W", this.W);
-        }
+        ///// <summary>Used by ISerialize to serialize the object.</summary>
+        ///// <param name="info"></param>
+        ///// <param name="context"></param>
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("X", this.X);
+        //    info.AddValue("Y", this.Y);
+        //    info.AddValue("Z", this.Z);
+        //    info.AddValue("W", this.W);
+        //}
 
         /// <summary>Updates the X,Y,Z and W components of this instance by reading from a Stream.</summary>
         /// <param name="bin">A BinaryReader instance associated with an open Stream.</param>

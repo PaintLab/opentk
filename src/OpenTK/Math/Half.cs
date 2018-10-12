@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
+
 
 namespace OpenTK
 {
@@ -384,21 +384,21 @@ namespace OpenTK
         /// <summary>Smallest positive e for which half (1.0 + e) != half (1.0)</summary>
         public static readonly Single Epsilon = 0.00097656f;
 
-        /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public Half(SerializationInfo info, StreamingContext context)
-        {
-            this.bits = (ushort)info.GetValue("bits", typeof(ushort));
-        }
+        ///// <summary>Constructor used by ISerializable to deserialize the object.</summary>
+        ///// <param name="info"></param>
+        ///// <param name="context"></param>
+        //public Half(SerializationInfo info, StreamingContext context)
+        //{
+        //    this.bits = (ushort)info.GetValue("bits", typeof(ushort));
+        //}
 
-        /// <summary>Used by ISerialize to serialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("bits", this.bits);
-        }
+        ///// <summary>Used by ISerialize to serialize the object.</summary>
+        ///// <param name="info"></param>
+        ///// <param name="context"></param>
+        //public void GetObjectData(SerializationInfo info, StreamingContext context)
+        //{
+        //    info.AddValue("bits", this.bits);
+        //}
 
         /// <summary>Updates the Half by reading from a Stream.</summary>
         /// <param name="bin">A BinaryReader instance associated with an open Stream.</param>

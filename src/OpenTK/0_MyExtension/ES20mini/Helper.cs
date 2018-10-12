@@ -457,21 +457,55 @@ namespace OpenTK.Graphics.ES20
                 GL.DeleteTextures(1, arr);
             }
         }
-        public static void VertexAttribPointer(int location, int size, VertexAttribPointerType type, bool normalize, int byteCount, float[] vertices)
+
+        //-------------
+        public static void VertexAttribPointer(int location,
+            int size, VertexAttribPointerType
+            type, bool normalize,
+            int byteCount, byte[] vertices)
         {
             unsafe
             {
-                fixed (float* v_ptr = vertices)
+                fixed (byte* v_ptr = vertices)
                 {
                     GL.VertexAttribPointer(location,
-                         size, //float2
+                         size,
                          type,
                          normalize,
                          byteCount, //total size
                         (IntPtr)v_ptr);
                 }
             }
+        }
 
+        public static void VertexAttribPointer(Int32 index, Int32 size,
+            OpenTK.Graphics.ES20.VertexAttribPointerType type,
+            bool normalized,
+            Int32 stride,
+            float[] arr)
+        {
+            unsafe
+            {
+                fixed (float* v_ptr = arr)
+                {
+                    GL.VertexAttribPointer(index,
+                         size,
+                         type,
+                         normalized,
+                         stride, //total size
+                         (IntPtr)v_ptr);
+                }
+            }
+        }
+        public static void DrawElements(OpenTK.Graphics.ES20.PrimitiveType mode, Int32 count, OpenTK.Graphics.ES20.DrawElementsType type, byte[] indices)
+        {
+            unsafe
+            {
+                fixed (byte* v_ptr = indices)
+                {
+                    GL.DrawElements(mode, count, type, (IntPtr)v_ptr);
+                }
+            }
         }
         public static void DrawElements(BeginMode mode, int size, DrawElementsType elemType, ushort[] indices)
         {
@@ -482,7 +516,25 @@ namespace OpenTK.Graphics.ES20
                     GL.DrawElements((PrimitiveType)mode, size, elemType, (IntPtr)v_ptr);
                 }
             }
-        } 
+        }
+        public static void TexImage2D(TextureTarget textureTarget, int level, PixelInternalFormat format,
+            int width, int height, int b, PixelFormat pixelFormat, PixelType pxtype, byte[] buffer)
+        {
+            unsafe
+            {
+                fixed (byte* buffer_ptr = buffer)
+                {
+                    GL.TexImage2D(
+                       (TextureTarget2d)textureTarget,
+                       level,
+                       (TextureComponentCount)format,
+                       width, height, b, pixelFormat, pxtype,
+                       (System.IntPtr)buffer_ptr);
+                }
+            }
+
+        }
+
     }
 }
 

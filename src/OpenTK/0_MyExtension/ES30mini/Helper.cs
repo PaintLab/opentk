@@ -278,19 +278,19 @@ namespace OpenTK.Graphics.ES30
             }
         }
 
-        [CLSCompliant(false)]
+
         public static void VertexAttrib2(Int32 index, ref Vector2 v)
         {
             GL.VertexAttrib2(index, v.X, v.Y);
         }
 
-        [CLSCompliant(false)]
+
         public static void VertexAttrib3(Int32 index, ref Vector3 v)
         {
             GL.VertexAttrib3(index, v.X, v.Y, v.Z);
         }
 
-        [CLSCompliant(false)]
+
         public static void VertexAttrib4(Int32 index, ref Vector4 v)
         {
             GL.VertexAttrib4(index, v.X, v.Y, v.Z, v.W);
@@ -316,7 +316,7 @@ namespace OpenTK.Graphics.ES30
             VertexAttribPointer(index, size, type, normalized, stride, (IntPtr)offset);
         }
 
-        [CLSCompliant(false)]
+
         public static void VertexAttribPointer(uint index, int size, VertexAttribPointerType type, bool normalized, int stride, int offset)
         {
             VertexAttribPointer(index, size, type, normalized, stride, (IntPtr)offset);
@@ -380,17 +380,17 @@ namespace OpenTK.Graphics.ES30
         //{
         //    GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         //}
-//#if MINIMAL
-//        public static void Viewport(OpenTK.Point location, OpenTK.Size size)
-//        {
-//            GL.Viewport(location.X, location.Y, size.Width, size.Height);
-//        }
+        //#if MINIMAL
+        //        public static void Viewport(OpenTK.Point location, OpenTK.Size size)
+        //        {
+        //            GL.Viewport(location.X, location.Y, size.Width, size.Height);
+        //        }
 
-//        public static void Viewport(OpenTK.Rectangle rectangle)
-//        {
-//            GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-//        }
-//#endif
+        //        public static void Viewport(OpenTK.Rectangle rectangle)
+        //        {
+        //            GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        //        }
+        //#endif
 
 #pragma warning restore 3019
 #pragma warning restore 1591
@@ -437,15 +437,16 @@ namespace OpenTK.Graphics.ES30
 #pragma warning restore 1574 // XML comment cref attribute could not be resolved, compiler bug in Mono 3.4.0
 
 
+
     partial class GL
     {
         public static void DrawArrays(BeginMode beginMode, int first, int count)
         {
             GL.DrawArrays((PrimitiveType)beginMode, first, count);
         }
-        public static void DrawElements(BeginMode beginMode, int nelements, DrawElementsType type, IntPtr offset)
+        public static void DrawElements(BeginMode beginMode, int nelements, DrawElementsType type, int offset)
         {
-            GL.DrawElements((PrimitiveType)beginMode, nelements, type, offset);
+            GL.DrawElements((PrimitiveType)beginMode, nelements, type, (IntPtr)offset);
         }
         public static int GenTexture()
         {
@@ -461,7 +462,49 @@ namespace OpenTK.Graphics.ES30
                 GL.DeleteTextures(1, arr);
             }
         }
-    }
+        public static void VertexAttribPointer(int location, int size, VertexAttribPointerType type, bool normalize, int byteCount, float[] vertices)
+        {
+            unsafe
+            {
+                fixed (float* v_ptr = vertices)
+                {
+                    GL.VertexAttribPointer(location,
+                         size, //float2
+                         type,
+                         normalize,
+                         byteCount, //total size
+                        (IntPtr)v_ptr);
+                }
+            }
 
+        }
+        public static void DrawElements(BeginMode mode, int size, DrawElementsType elemType, ushort[] indices)
+        {
+            unsafe
+            {
+                fixed (ushort* v_ptr = indices)
+                {
+                    GL.DrawElements((PrimitiveType)mode, size, elemType, (IntPtr)v_ptr);
+                }
+            }
+        }
+        public static void TexImage2D(TextureTarget textureTarget, int level, PixelInternalFormat format,
+            int width, int height, int border, PixelFormat pixelFormat, PixelType pxtype, byte[] buffer)
+        {
+            unsafe
+            {
+                fixed (byte* buffer_ptr = buffer)
+                {
+                    GL.TexImage2D((TextureTarget2d)textureTarget,
+                        level, (TextureComponentCount)format,
+                        width, height,
+                        border, pixelFormat,
+                        pxtype, (System.IntPtr)buffer_ptr);
+                }
+            }
+
+        }
+
+    }
 
 }
