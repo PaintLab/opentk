@@ -1241,9 +1241,9 @@ namespace OpenTK.Platform.Windows
                         }
                     }
 
-                    Debug.Assert(oldCursorHandle != IntPtr.Zero);
-                    Debug.Assert(oldCursorHandle != cursor_handle);
-                    Debug.Assert(oldCursor != cursor);
+                    //Debug.Assert(oldCursorHandle != IntPtr.Zero);
+                    //Debug.Assert(oldCursorHandle != cursor_handle);
+                    //Debug.Assert(oldCursor != cursor);
 
                     // If we've replaced a custom (non-default) cursor we need to free the handle.
                     if (oldCursor != MouseCursor.Default)

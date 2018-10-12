@@ -32,13 +32,11 @@ using OpenTK.Platform;
 
 namespace OpenTK
 {
-    public interface INativeWindow : IDisposable
-    {
-    }
+
     /// <summary>
     /// Defines the interface for a native window.
     /// </summary>
-    public interface INativeWindow2 : INativeWindow, IDisposable
+    public interface INativeWindow : IDisposable
     {
         /// <summary>
         /// Gets or sets the <see cref="System.Drawing.Icon"/> of the window.

@@ -30,8 +30,7 @@ namespace OpenTK.Platform
 {
     public interface IPlatformFactory : IDisposable
     {
-        INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
-
+     
         IDisplayDeviceDriver CreateDisplayDeviceDriver();
 
         IGraphicsContext CreateGLContext(GraphicsMode mode, IWindowInfo window, IGraphicsContext shareContext, bool directRendering, int major, int minor, GraphicsContextFlags flags);

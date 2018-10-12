@@ -28,12 +28,12 @@ using System;
 using System.Drawing;
 #endif
 using System.Runtime.InteropServices;
-using System.Text;
+
 
 namespace OpenTK.Graphics.ES20
 {
     /// <summary>
-    /// Provides access to OpenGL ES 3.0 methods.
+    /// Provides access to OpenGL ES 2.0 methods.
     /// </summary>
     public sealed partial class GL : GraphicsBindingsBase
     {
@@ -79,7 +79,7 @@ namespace OpenTK.Graphics.ES20
                 GL.DeleteBuffers(1, arr);
             }
         }
-        
+
         public static void BufferData(BufferTarget target, int byteLen, float[] points, BufferUsageHint usageHint)
         {
             unsafe
@@ -372,17 +372,17 @@ namespace OpenTK.Graphics.ES20
         {
             GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
-//#if MINIMAL
-//        public static void Viewport(OpenTK.Point location, OpenTK.Size size)
-//        {
-//            GL.Viewport(location.X, location.Y, size.Width, size.Height);
-//        }
+        //#if MINIMAL
+        //        public static void Viewport(OpenTK.Point location, OpenTK.Size size)
+        //        {
+        //            GL.Viewport(location.X, location.Y, size.Width, size.Height);
+        //        }
 
-//        public static void Viewport(OpenTK.Rectangle rectangle)
-//        {
-//            GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-//        }
-//#endif
+        //        public static void Viewport(OpenTK.Rectangle rectangle)
+        //        {
+        //            GL.Viewport(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+        //        }
+        //#endif
 
 #pragma warning restore 3019
 #pragma warning restore 1591

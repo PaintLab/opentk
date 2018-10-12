@@ -38,13 +38,13 @@ namespace OpenTK
     /// <summary>
     /// Instances of this class implement the <see cref="OpenTK.INativeWindow"/> interface on the current platform.
     /// </summary>
-    public class NativeWindow : INativeWindow2
+    public class NativeWindow : INativeWindow
     {
         private readonly GameWindowFlags options;
 
         private readonly DisplayDevice device;
 
-        private readonly INativeWindow2 implementation;
+        private readonly INativeWindow implementation;
 
         private bool events;
         private bool previous_cursor_visible = true;
@@ -106,8 +106,8 @@ namespace OpenTK
 
             this.thread_id = System.Threading.Thread.CurrentThread.ManagedThreadId;
 
-            IPlatformFactory factory = Factory.Default;
-            implementation = (INativeWindow2)factory.CreateNativeWindow(x, y, width, height, title, mode, options, this.device);
+            IPlatformFactory2 factory = (IPlatformFactory2)Factory.Default;
+            implementation = (INativeWindow)factory.CreateNativeWindow(x, y, width, height, title, mode, options, this.device);
             factory.RegisterResource(this);
 
             if ((options & GameWindowFlags.Fullscreen) != 0)

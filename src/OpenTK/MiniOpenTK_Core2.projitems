@@ -9,11 +9,13 @@
     <Import_RootNamespace>MiniOpenTK_Core2</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension2\INativeWindow2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)0_MyExtension2\IPlatformFactory2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FrameEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameWindowFlags.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IGameWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)INativeWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\Buttons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ButtonState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Input\ConfigurationType.cs" />

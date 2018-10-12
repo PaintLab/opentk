@@ -29,7 +29,9 @@ using OpenTK.Graphics;
 namespace OpenTK.Platform
 {
     internal interface IPlatformFactory2 : IPlatformFactory
-    {   
+    {
+        INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
+
         OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
 
         OpenTK.Input.IMouseDriver2 CreateMouseDriver();
