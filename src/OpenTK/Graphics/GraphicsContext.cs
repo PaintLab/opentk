@@ -191,6 +191,10 @@ namespace OpenTK.Graphics
 
                     AddContext(this);
                 }
+                catch(Exception ex)
+                {
+
+                }
                 finally
                 {
 
