@@ -29,7 +29,11 @@ using OpenTK.Graphics;
 
 namespace OpenTK.Platform.Egl
 {
-    internal abstract class EglContext : EmbeddedGraphicsContext
+    public interface IEglContext
+    {
+        IEglWindowInfo MyWindowInfo { get; }
+    }
+    abstract class EglContext : EmbeddedGraphicsContext, IEglContext
     {
         protected readonly RenderableFlags Renderable;
         internal EglWindowInfo WindowInfo;
@@ -268,7 +272,7 @@ namespace OpenTK.Platform.Egl
             }
             return (EglContext)sharedContext;
         }
-        public EglWindowInfo MyWindowInfo
+        public IEglWindowInfo MyWindowInfo
         {
             get { return this.WindowInfo; }
         }
