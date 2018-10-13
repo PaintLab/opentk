@@ -67,7 +67,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Platform\DeviceCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\DisplayDeviceBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Egl\AngleWindowInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Platform\Egl\Egl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Egl\EglAnglePlatformFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Egl\EglContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform\Egl\EglException.cs" />
