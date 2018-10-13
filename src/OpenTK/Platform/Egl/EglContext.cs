@@ -51,6 +51,7 @@ namespace OpenTK.Platform.Egl
                 throw new ArgumentNullException("window");
             }
 
+            //Egl.BindAPI(0x30A0); //bind EGL_OPENGL_ES_API
             EglContext shared = GetSharedEglContext(sharedContext);
 
             WindowInfo = window;
@@ -266,6 +267,10 @@ namespace OpenTK.Platform.Egl
                 return (EglContext)internalContext.Implementation;
             }
             return (EglContext)sharedContext;
+        }
+        public EglWindowInfo MyWindowInfo
+        {
+            get { return this.WindowInfo; }
         }
     }
 }
