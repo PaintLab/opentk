@@ -22,14 +22,14 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-using System.Xml.Serialization;
+
 
 namespace OpenTK
 {
     /// <summary>
     /// Represents a 3D vector using three double-precision floating-point numbers.
     /// </summary>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3d : IEquatable<Vector3d>
     {

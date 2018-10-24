@@ -28,7 +28,7 @@ namespace OpenTK
     /// <summary>
     /// Represents a 3x3 matrix containing 3D rotation and scale with double-precision components.
     /// </summary>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Matrix3d : IEquatable<Matrix3d>
     {

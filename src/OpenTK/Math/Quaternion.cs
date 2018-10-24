@@ -21,15 +21,16 @@ SOFTWARE.
  */
 
 using System;
-using System.Runtime.InteropServices;
-using System.Xml.Serialization;
+using System.Runtime.InteropServices; 
+
+ 
 
 namespace OpenTK
 {
     /// <summary>
     /// Represents a Quaternion.
     /// </summary>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Quaternion : IEquatable<Quaternion>
     {

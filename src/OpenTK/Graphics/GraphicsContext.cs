@@ -137,6 +137,8 @@ namespace OpenTK.Graphics
                                                           | GraphicsContextFlags.AngleD3D9
                                                           | GraphicsContextFlags.AngleD3D11
                                                           | GraphicsContextFlags.AngleOpenGL;
+
+                flags = useAngleFlag;
                 var useAngle = false;
                 if ((flags & useAngleFlag) != 0)
                 {
@@ -144,14 +146,14 @@ namespace OpenTK.Graphics
                     useAngle = true;
                 }
 
-                Debug.Print("Creating GraphicsContext.");
+                Debug.WriteLine("Creating GraphicsContext.");
                 try
                 {
-                    Debug.Indent();
-                    Debug.Print("GraphicsMode: {0}", mode);
-                    Debug.Print("IWindowInfo: {0}", window);
-                    Debug.Print("GraphicsContextFlags: {0}", flags);
-                    Debug.Print("Requested version: {0}.{1}", major, minor);
+                    Debug.WriteLine("");
+                    Debug.WriteLine($"GraphicsMode: {mode}");
+                    Debug.WriteLine($"IWindowInfo: {window}");
+                    Debug.WriteLine($"GraphicsContextFlags: {flags}");
+                    Debug.WriteLine($"Requested version: {major}.{minor}");
 
                     // Todo: Add a DummyFactory implementing IPlatformFactory.
                     if (designMode)
@@ -189,9 +191,13 @@ namespace OpenTK.Graphics
 
                     AddContext(this);
                 }
+                catch(Exception ex)
+                {
+
+                }
                 finally
                 {
-                    Debug.Unindent();
+
                 }
             }
         }
@@ -317,8 +323,8 @@ namespace OpenTK.Graphics
             }
             else
             {
-                Debug.Print("A GraphicsContext with handle {0} already exists.", ctx);
-                Debug.Print("Did you forget to call Dispose()?");
+                Debug.WriteLine($"A GraphicsContext with handle {ctx} already exists.");
+                Debug.WriteLine("Did you forget to call Dispose()?");
                 available_contexts[ctx] = (IGraphicsContext)context;
             }
         }
@@ -332,7 +338,8 @@ namespace OpenTK.Graphics
             }
             else
             {
-                Debug.Print("Tried to remove non-existent GraphicsContext handle {0}. Call Dispose() to avoid this error.", ctx);
+                Debug.WriteLine("");
+                Debug.WriteLine($"Tried to remove non-existent GraphicsContext handle {ctx}. Call Dispose() to avoid this error.");
             }
         }
 
@@ -598,7 +605,7 @@ namespace OpenTK.Graphics
                 // This is also known to crash GLX implementations.
                 if (manual)
                 {
-                    Debug.Print("Disposing context {0}.", (this as IGraphicsContextInternal).Context.ToString());
+                    Debug.WriteLine($"Disposing context {(this as IGraphicsContextInternal).Context.ToString()}.");
                     if (implementation != null)
                     {
                         implementation.Dispose();
@@ -621,5 +628,65 @@ namespace OpenTK.Graphics
         {
             Dispose(false);
         }
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////        
+        /// <summary>
+        /// TODO: for used with glfw context
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns></returns>
+        public static GraphicsContext CreateExternalContext(Platform.External.ExternalGraphicsContext externalGfxContext)
+        {
+            return new GraphicsContext(externalGfxContext);
+        }
+        readonly bool IsExternal;
+        GraphicsContext(OpenTK.Platform.External.ExternalGraphicsContext externalGraphicsContext)
+        {
+            implementation = externalGraphicsContext;
+
+            lock (SyncRoot)
+            {
+
+
+                // Angle needs an embedded context
+                //const GraphicsContextFlags useAngleFlag = GraphicsContextFlags.Angle
+                //                                          | GraphicsContextFlags.AngleD3D9
+                //                                          | GraphicsContextFlags.AngleD3D11
+                //                                          | GraphicsContextFlags.AngleOpenGL;
+
+                bool useAngle = true;
+                try
+                {
+                    IsExternal = true;
+                    IPlatformFactory factory = Factory.Embedded;
+
+                    // Note: this approach does not allow us to mix native and EGL contexts in the same process.
+                    // This should not be a problem, as this use-case is not interesting for regular applications.
+                    // Note 2: some platforms may not support a direct way of getting the current context
+                    // (this happens e.g. with DummyGLContext). In that case, we use a slow fallback which
+                    // iterates through all known contexts and checks if any is current (check GetCurrentContext
+                    // declaration).
+
+                    if (GetCurrentContext == null)
+                    {
+                        GetCurrentContext = externalGraphicsContext.CreateCurrentContextDel(); // factory.CreateGetCurrentGraphicsContext();
+                    }
+
+                    available_contexts.Add((implementation as IGraphicsContextInternal).Context, this);
+                    (this as IGraphicsContextInternal).LoadAll();
+
+
+                    handle_cached = ((IGraphicsContextInternal)implementation).Context;
+                    factory.RegisterResource(this);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

@@ -49,12 +49,23 @@ namespace OpenTK.Platform
         public PlatformFactoryBase()
         {
         }
-        public abstract INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
-        INativeWindow IPlatformFactory.CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
-        {
-            return CreateNativeWindow(x, y, width, height, title, mode, options, device);
-        }
+        public abstract INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
+        //INativeWindow IPlatformFactory2.CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
+
+        //INativeWindow IPlatformFactory.CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        //{
+        //    return CreateNativeWindow(x, y, width, height, title, mode, options, device);
+        //}
+
+        //public INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title,
+        //        GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        //{
+        //    return CreateNativeWindow(x, y, width, height, title, mode, options, device);
+        //}
 
 
         public abstract IDisplayDeviceDriver CreateDisplayDeviceDriver();
@@ -117,6 +128,7 @@ namespace OpenTK.Platform
             }
         }
 
+        
         ~PlatformFactoryBase()
         {
             Dispose(false);

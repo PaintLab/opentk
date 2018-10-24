@@ -22,12 +22,12 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-using System.Xml.Serialization;
+
 
 namespace OpenTK
 {
     /// <summary>Represents a 2D vector using two double-precision floating-point numbers.</summary>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2d : IEquatable<Vector2d>
     {

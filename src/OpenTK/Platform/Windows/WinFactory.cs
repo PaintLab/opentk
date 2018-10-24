@@ -41,7 +41,9 @@ namespace OpenTK.Platform.Windows
         private WinRawInput rawinput_driver; // For keyboard and mouse input
 
         internal static IntPtr OpenGLHandle { get; private set; }
-        private const string OpenGLName = "OPENGL32.DLL";
+
+        //private const string OpenGLName = "OPENGL32.DLL";
+        private const string OpenGLName = "libGLESv2.dll";
 
         public WinFactory()
         {
@@ -75,10 +77,10 @@ namespace OpenTK.Platform.Windows
                 throw new ApplicationException(String.Format("LoadLibrary(\"{0}\") call failed with code {1}",
                     OpenGLName, Marshal.GetLastWin32Error()));
             }
-            Debug.WriteLine(String.Format("Loaded opengl32.dll: {0}", OpenGLHandle));
+            Debug.WriteLine($"Loaded {OpenGLName}: {OpenGLHandle}");
         }
 
-        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
         {
             return new WinGLNative(x, y, width, height, title, options, device);
         }

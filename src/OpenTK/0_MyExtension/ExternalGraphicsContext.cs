@@ -1,11 +1,12 @@
-﻿//
+﻿//MIT, 2016-present, WinterDev
+//
 // The Open Toolkit Library License
 //
 // Copyright (c) 2006 - 2009 the Open Toolkit library.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights to
+// in the Software without restriction, including without limitation the rights to 
 // use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 // the Software, and to permit persons to whom the Software is furnished to do
 // so, subject to the following conditions:
@@ -25,18 +26,29 @@
 
 using System;
 using OpenTK.Graphics;
-
-namespace OpenTK.Platform
+namespace OpenTK.Platform.External
 {
-    internal interface IPlatformFactory2 : IPlatformFactory
-    {   
-        OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
 
-        OpenTK.Input.IMouseDriver2 CreateMouseDriver();
+    ////////////////////////////////////////////////////////////////////
+    //this is our extension
+    //-
+    public abstract class ExternalGraphicsContext : GraphicsContextBase
+    {
 
-        OpenTK.Input.IGamePadDriver CreateGamePadDriver();
+        static bool hasLoadGLFuncs = false;
 
-        Input.IJoystickDriver2 CreateJoystickDriver(); 
-        
+
+        public ExternalGraphicsContext()
+        {
+           
+        }
+        public abstract Graphics.GraphicsContext.GetCurrentContextDelegate CreateCurrentContextDel();
+
+        public override void LoadAll()
+        {
+            hasLoadGLFuncs = true;
+            new OpenTK.Graphics.ES20.GL().LoadEntryPoints();
+            new OpenTK.Graphics.ES30.GL().LoadEntryPoints(); 
+        }
     }
 }

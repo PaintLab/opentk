@@ -471,5 +471,24 @@ namespace OpenTK
         /// Gets the <see cref="OpenTK.Platform.IWindowInfo"/> for this instance.
         /// </summary>
         public IWindowInfo WindowInfo => _implementation.WindowInfo;
+
+        public IntPtr GetEglDisplay()
+        {
+            var eglContext = ((IGraphicsContextInternal)this.Context).Implementation as OpenTK.Platform.Egl.IEglContext;
+            if (eglContext != null)
+            {
+                return eglContext.MyWindowInfo.Display;
+            }
+            return IntPtr.Zero;
+        }
+        public IntPtr GetEglSurface()
+        {
+            var eglContext = ((IGraphicsContextInternal)this.Context).Implementation as OpenTK.Platform.Egl.IEglContext;
+            if (eglContext != null)
+            {
+                return eglContext.MyWindowInfo.Surface;
+            }
+            return IntPtr.Zero;
+        }
     }
 }

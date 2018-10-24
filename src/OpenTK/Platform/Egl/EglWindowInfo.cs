@@ -30,7 +30,14 @@ using OpenTK.Graphics;
 namespace OpenTK.Platform.Egl
 {
     // Holds information about an EGL window.
-    internal class EglWindowInfo : IWindowInfo
+    public interface IEglWindowInfo
+    {
+        IntPtr Handle { get; } 
+        IntPtr Display { get; }
+        IntPtr Surface { get; }
+    }
+
+    internal class EglWindowInfo : IWindowInfo, IEglWindowInfo
     {
         private IntPtr surface;
         private bool disposed;
@@ -82,7 +89,7 @@ namespace OpenTK.Platform.Egl
 
         public void CreatePbufferSurface(IntPtr config)
         {
-            int[] attribs = new int[]{Egl.NONE};
+            int[] attribs = new int[] { Egl.NONE };
             Surface = Egl.CreatePbufferSurface(Display, config, attribs);
             if (Surface == IntPtr.Zero)
             {

@@ -286,10 +286,10 @@ namespace OpenTK
                         DetectUnix(out runningOnUnix, out runningOnLinux, out runningOnMacOS);
                     }
 
-                    if (options.Backend == PlatformBackend.Default)
-                    {
-                        RunningOnSdl2 = DetectSdl2();
-                    }
+                    //if (options.Backend == PlatformBackend.Default)
+                    //{
+                    //    RunningOnSdl2 = DetectSdl2();
+                    //}
 
                     if ((runningOnLinux && !RunningOnSdl2) || options.Backend == PlatformBackend.PreferX11)
                     {

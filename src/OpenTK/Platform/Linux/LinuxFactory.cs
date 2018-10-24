@@ -179,7 +179,7 @@ namespace OpenTK.Platform.Linux
             base.Dispose(manual);
         }
 
-        public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice display_device)
+        public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice display_device)
         {
             return new LinuxNativeWindow(egl_display, gbm_device, gpu_fd, x, y, width, height, title, mode, options, display_device);
         }

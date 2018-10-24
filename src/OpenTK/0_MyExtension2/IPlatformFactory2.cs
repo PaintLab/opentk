@@ -28,18 +28,17 @@ using OpenTK.Graphics;
 
 namespace OpenTK.Platform
 {
-    public interface IPlatformFactory : IDisposable
+    internal interface IPlatformFactory2 : IPlatformFactory
     {
         INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device);
 
-        IDisplayDeviceDriver CreateDisplayDeviceDriver();
+        OpenTK.Input.IKeyboardDriver2 CreateKeyboardDriver();
 
-        IGraphicsContext CreateGLContext(GraphicsMode mode, IWindowInfo window, IGraphicsContext shareContext, bool directRendering, int major, int minor, GraphicsContextFlags flags);
+        OpenTK.Input.IMouseDriver2 CreateMouseDriver();
 
-        IGraphicsContext CreateGLContext(ContextHandle handle, IWindowInfo window, IGraphicsContext shareContext, bool directRendering, int major, int minor, GraphicsContextFlags flags);
+        OpenTK.Input.IGamePadDriver CreateGamePadDriver();
 
-        GraphicsContext.GetCurrentContextDelegate CreateGetCurrentGraphicsContext(); 
-        void RegisterResource(IDisposable resource);
+        Input.IJoystickDriver2 CreateJoystickDriver(); 
+        
     }
-    
 }

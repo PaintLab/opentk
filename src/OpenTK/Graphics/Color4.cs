@@ -33,7 +33,7 @@ namespace OpenTK.Graphics
     /// <summary>
     /// Represents a color with 4 floating-point components (R, G, B, A).
     /// </summary>
-    [Serializable]
+    
     public struct Color4 : IEquatable<Color4>
     {
         /// <summary>

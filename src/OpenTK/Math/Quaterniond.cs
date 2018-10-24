@@ -22,14 +22,14 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-using System.Xml.Serialization;
+
 
 namespace OpenTK
 {
     /// <summary>
     /// Represents a double-precision Quaternion.
     /// </summary>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Quaterniond : IEquatable<Quaterniond>
     {

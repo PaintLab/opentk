@@ -31,7 +31,7 @@ namespace OpenTK.Platform
     using Graphics;
     using Input;
 
-    internal sealed class Factory : IPlatformFactory2
+    sealed class Factory : IPlatformFactory2
     {
         private bool disposed;
 
@@ -207,7 +207,7 @@ namespace OpenTK.Platform
         {
             private static readonly string error_string = "Please, refer to http://www.opentk.com for more information.";
 
-            public override INativeWindow2 CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
+            public override INativeWindow CreateNativeWindow(int x, int y, int width, int height, string title, GraphicsMode mode, GameWindowFlags options, DisplayDevice device)
             {
                 throw new PlatformNotSupportedException(error_string);
             }
